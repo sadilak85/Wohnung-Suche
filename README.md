@@ -1,5 +1,3 @@
-![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/image.jpg?raw=true)
-
 A tool to provide available rental apartments specified by user's choices prior to following websites:
 
 https://www.immobilienscout24.de/
@@ -13,3 +11,12 @@ https://www.wohnungsboerse.net/
 https://www.immonet.de/
 
 https://www.ivd24immobilien.de/
+
+How to see current Chrome version:
+![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/ChromeVersion.png?raw=true)
+
+How to download a Google Driver for Selenium:
+![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/WebDriverChromeDownload.png?raw=true)
+
+How to set User Profile for Chrome:
+![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/ChromeVersion.png?raw=true)
