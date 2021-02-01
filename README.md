@@ -1,3 +1,5 @@
+![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/image.jpg?raw=true)
+
 A tool to provide available rental apartments specified by user's choices prior to following websites:
 
 https://www.immobilienscout24.de/
