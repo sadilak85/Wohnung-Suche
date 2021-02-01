@@ -17,6 +17,7 @@ How to see current Chrome version:
 
 How to download a Google Driver for Selenium:
 ![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png?raw=true)
+<img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png" width="40%">
 
 How to set User Profile for Chrome: 
 
