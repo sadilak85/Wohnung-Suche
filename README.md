@@ -19,4 +19,6 @@ How to download a Google Driver for Selenium:
 ![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png?raw=true)
 
 How to set User Profile for Chrome:
-![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png?raw=true)
+first of all , type in your browser this:   chrome://version/
+Then you find in the page the necessary path:
+![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeUserProfile.png?raw=true)
