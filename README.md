@@ -27,7 +27,7 @@ Let's have a look...
 
 How to see the Chrome version:
 
-<img src="https://github.com/sadilak85/Wohnung-Suche/main/pics/ChromeVersion.png" width="60%">
+<img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png" width="60%">
 
 How to download a Google Driver for Selenium:
 
@@ -42,7 +42,10 @@ You will fill in the file first to run the tool efficiently and without any poss
 
 So first you will fill in the file called "UserDataInput.txt" in the working directory.
 
-https://github.com/sadilak85/Wohnung-Suche/main/UserDataInput.txt
+https://github.com/sadilak85/Wohnung-Suche/blob/main/UserDataInput.txt
+
+Another important issue:
+In "UserDataInput.txt" file, the last line is reserved for Chrome user profile path which is important to get rid of privacy settings pop ups in the absensce of any cookies, disabling selenium work properly.
 
 How to set User Profile for Chrome: 
 
@@ -51,3 +54,9 @@ How to set User Profile for Chrome:
 2) find in the page the necessary path: 
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeUserProfile.png" width="60%">
+
+
+
+Last Notes:
+
+It is still under construction and is buggy. Mostly Chrome driver is used to develop the tool. Recommended to use Chrome. Other browser options are only written in the code sections for future implementations.
