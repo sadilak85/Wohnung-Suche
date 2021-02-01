@@ -4,8 +4,10 @@ import re
 
 TITLE = '''
 
+
 █░█░█ █▀█ █░█ █▄░█ █░█ █▄░█ █▀▀   █▀ █░█ █▀▀ █░█ █▀▀
 ▀▄▀▄▀ █▄█ █▀█ █░▀█ █▄█ █░▀█ █▄█   ▄█ █▄█ █▄▄ █▀█ ██▄
+
 
 '''
 
@@ -180,6 +182,7 @@ def main():
     input_List['SearchLocation'] = 'nordrhein-westfalen/duesseldorf'
   else:
     print('Default City <Muenchen> is selected!')
+  #
   # immobilienscout24
   input_List['Sourceweb'] = SourceWebSites_List[0]
   print('Initializing for immobilienscout24.de ...')
