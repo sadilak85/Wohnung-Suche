@@ -13,10 +13,10 @@ https://www.immonet.de/
 https://www.ivd24immobilien.de/
 
 How to see current Chrome version:
-![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/ChromeVersion.png?raw=true)
+![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png?raw=true)
 
 How to download a Google Driver for Selenium:
-![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/WebDriverChromeDownload.png?raw=true)
+![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png?raw=true)
 
 How to set User Profile for Chrome:
-![alt text](https://github.com/[sadilak85]/[Wohnung-Suche]/blob/[main]/pics/ChromeVersion.png?raw=true)
+![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png?raw=true)
