@@ -13,7 +13,7 @@ https://www.immonet.de/
 https://www.ivd24immobilien.de/
 
 How to see current Chrome version:
-![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png| width=100)
+![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png)
 
 How to download a Google Driver for Selenium:
 ![alt text](https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png?raw=true)
