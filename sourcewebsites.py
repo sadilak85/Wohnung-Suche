@@ -18,7 +18,7 @@ import os.path
 currentdir = os.path.dirname(os.path.realpath(__file__))
 outdir = Path(currentdir) / "Output"
 if not os.path.exists(outdir):
-    os.mkdir(outdirsession)
+    os.mkdir(outdir)
 
 outdirsession = Path(outdir) / time.strftime("%Y%m%d-%H%M%S")
 os.mkdir(outdirsession)
