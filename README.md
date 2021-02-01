@@ -6,7 +6,9 @@ https://immobilienmarkt.sueddeutsche.de/
 https://www.wohnungsboerse.net/
 https://www.immonet.de/
 https://www.ivd24immobilien.de/
+
 ...
+
 (Note: Not all of those websites are implemented in the tool yet. need more time individually due to each different html sources)
 
 Tool is based on python language, essentially a python package "selenium" which automatically searches objects in websites given above with user defined properties (location, price, room numbers, etc.) and fills the forms then sends messages defined by the user as a template before.
