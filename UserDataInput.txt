@@ -1,0 +1,33 @@
+ 
+---> Please fill in the correct fields in order to run process without problems
+
+Firstname>>	 Thomas
+
+Lastname>>	Mustermann
+
+Email>>  Mustermann@Musterweb.de
+
+Telephone>>	0049123123
+
+Street>>	Elmstreet
+
+Housenumber>>	9
+
+PostalCode>> 	81373
+
+City>>  München
+
+['Muenchen: [M]', 'Berlin: [B]', 'Hamburg: [H]', 'Koeln: [K]', 'Frankfurt: [F]', 'Stuttgart: [S]', 'Duesseldorf: [D]']
+SearchLocation>>   M
+
+Budget>>	2000
+
+TotalRooms>>	3
+
+SurfaceArea>>	100
+
+['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']
+Browsertype>> C
+
+[Enter your Chrome profile path to prevent extra popups (else you must close them manually), enabling user cookie settings]
+ChromeUserProfilePath>> C:/Users/gw00161333/AppData/Local/Google/Chrome/User Data/Default
