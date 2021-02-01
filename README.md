@@ -38,7 +38,9 @@ How to download a Google Driver for Selenium:
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png" width="60%">
 
 
-You will fill in "
+You will fill in the file first to run the tool efficiently and without any possible errors. So first you will fill in this file:
+
+https://github.com/sadilak85/Wohnung-Suche/blob/main/UserDataInput.txt
 
 How to set User Profile for Chrome: 
 
