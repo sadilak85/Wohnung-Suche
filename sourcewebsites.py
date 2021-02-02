@@ -29,9 +29,9 @@ except:
 outdirsession = Path(outdir) / time.strftime("%Y%m%d-%H%M%S")
 os.mkdir(outdirsession)
 #
-def get_objectID(objecturl):
+def get_objectID(objecturl, _keystr):
   try:
-    object_ID = objecturl.split('expose/')[1].split('?')[0]
+    object_ID = objecturl.split(_keystr+'/')[1].split('?')[0]
   except:
     object_ID = None
   return object_ID
@@ -43,15 +43,15 @@ def search_files_w_Object_ID(_checkfilenamestr):
       check = True
   return check
 
-def wait_objects_loaded(_driver, _urlnamestr):
+def wait_objects_loaded(_driver, _urlnamestr, _keystr):
   _url2open = []
   object_ID_list = []
   while object_ID_list == []:
     for link in _driver.find_elements_by_tag_name('a'):
       objecturl = link.get_attribute("href")
       if objecturl != None:
-        if "expose" in objecturl:
-          object_ID = get_objectID(objecturl)
+        if _keystr in objecturl:
+          object_ID = get_objectID(objecturl, _keystr)
           check = search_files_w_Object_ID(_urlnamestr+object_ID)
           if not check:
             if objecturl not in _url2open:
@@ -61,6 +61,68 @@ def wait_objects_loaded(_driver, _urlnamestr):
     time.sleep(5)
   return _url2open, object_ID_list
 
+def _immowelt(input_List):
+  unformatted_url = 'https://www.immowelt.de/liste/{l}/wohnungen/mieten?roomi={r}&prima={p}&wflmi={q}&sort=createdate%2Bdesc'
+  url2open = unformatted_url.format(l=input_List['SearchLocation'].split('/')[1], r=input_List['TotalRooms'], p=input_List['Budget'], q=input_List['SurfaceArea'])
+  #
+  Obj_immowelt = ImmobilienSuche(input_List)
+  webbrowser = Obj_immowelt.launchdriver(url2open)
+  #time.sleep(3)
+  #Obj_immowelt.load_cookies()
+  Obj_immowelt.scroll_down()
+  #
+  #
+  _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immowelt_','expose')
+
+  #Obj_immowelt.save_cookies()
+  webbrowser.close()
+  #
+  # Open the objects found after search
+  for i in range(len(_url2open)):
+    Obj_immowelt_ch = ImmobilienSuche(input_List)
+    webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
+    time.sleep(8) # increase here
+
+    #Obj_immowelt_ch.load_cookies()
+
+    # Click on the "Contact to" button
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')    ######?? working????
+    if element2click != []:
+      try:
+        element2click.click()
+      except:
+        print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
+        return False   
+    else:
+      print("Button for 'Contact' is not clickable, the process is aborting...")
+      return False
+
+    # Filling the form
+    select_salutation = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
+    try:
+      Select(select_salutation).select_by_visible_text('Herr')
+      # Select(webbrowser2focus.find_element_by_xpath('//*[@id="salutation"]')).select_by_visible_text('Herr')
+    except Exception as err:
+      print(err)
+      return False
+
+    Obj_immowelt_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
+    Obj_immowelt_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
+    Obj_immowelt_ch.fill_TextBox('//*[@id="email"]', input_List['Email'])
+    Obj_immowelt_ch.fill_TextBox('//*[@id="tel"]', input_List['Telephone'])
+
+    Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
+
+    # submit button ? 
+
+    # extract the page info into log file
+    filepath = os.path.join(outdirsession, 'Info_Immowelt_'+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immowelt(_url2open[i], filepath)
+
+    
+    #Obj_immowelt_ch.save_cookies()
+    webbrowser2focus.close()
+  return True
 
 def _immobilienscout24(input_List):
   unformatted_url = 'https://www.immobilienscout24.de/Suche/de/{l}/wohnung-mieten?numberofrooms={r}.0-&price=-{p}.0&livingspace={q}.0-&pricetype=rentpermonth&sorting=2'
@@ -73,7 +135,7 @@ def _immobilienscout24(input_List):
   #
   Obj_immobilienscout24.scroll_down()
   #
-  _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immobilienscout24_')
+  _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immobilienscout24_', 'expose')
   #
   #Obj_immobilienscout24.save_cookies()
   webbrowser.close()
@@ -129,74 +191,6 @@ def _immobilienscout24(input_List):
     webbrowser2focus.close()
 
   return True
-
-def _immowelt(input_List):
-  unformatted_url = 'https://www.immowelt.de/liste/{l}/wohnungen/mieten?roomi={r}&prima={p}&wflmi={q}&sort=createdate%2Bdesc'
-  url2open = unformatted_url.format(l=input_List['SearchLocation'].split('/')[1], r=input_List['TotalRooms'], p=input_List['Budget'], q=input_List['SurfaceArea'])
-  #
-  Obj_immowelt = ImmobilienSuche(input_List)
-  webbrowser = Obj_immowelt.launchdriver(url2open)
-  #time.sleep(3)
-  #Obj_immowelt.load_cookies()
-  Obj_immowelt.scroll_down()
-  #
-  #
-  _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immowelt_')
-
-  print(_url2open)
-  print (object_ID_list)
-
-  quit()
-
-  #Obj_immowelt.save_cookies()
-  webbrowser.close()
-  #
-  # Open the objects found after search
-  for i in range(len(_url2open)):
-    Obj_immowelt_ch = ImmobilienSuche(input_List)
-    webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
-    time.sleep(8) # increase here
-
-    #Obj_immowelt_ch.load_cookies()
-
-    # Click on the "Contact to" button
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')    ######?? working????
-    if element2click != []:
-      try:
-        element2click.click()
-      except:
-        print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
-        return False   
-    else:
-      print("Button for 'Contact' is not clickable, the process is aborting...")
-      return False
-
-    # Filling the form
-    select_salutation = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
-    try:
-      Select(select_salutation).select_by_visible_text('Herr')
-      # Select(webbrowser2focus.find_element_by_xpath('//*[@id="salutation"]')).select_by_visible_text('Herr')
-    except Exception as err:
-      print(err)
-      return False
-
-    Obj_immowelt_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="email"]', input_List['Email'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="tel"]', input_List['Telephone'])
-
-    Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
-
-    # submit button ? 
-
-    # extract the page info into log file
-    filepath = os.path.join(outdirsession, 'Info_Immowelt_'+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immowelt(_url2open[i], filepath)
-
-    
-    #Obj_immowelt_ch.save_cookies()
-    webbrowser2focus.close()
-  return True  
 
 def _immobilienmarkt_sueddeutsche(input_List):
   unformatted_url = 'https://immobilienmarkt.sueddeutsche.de/index.php?action=immo/suchen/trliste/home#&atype=a&pTo={p}&aFrom={q}&rFrom={r}&reg={l}&offset=0&sort=-time'
@@ -263,4 +257,5 @@ def _immobilienmarkt_sueddeutsche(input_List):
   # HTML from element with `get_attribute`
   #element = webbrowser.find_element_by_css_selector("#hireme")
   #html = element.get_attribute('innerHTML')
+#
 #

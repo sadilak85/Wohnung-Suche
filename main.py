@@ -11,7 +11,7 @@ TITLE = '''
 
 '''
 
-SourceWebSites_List = ['immobilienscout24', 'immowelt', 'immobilienmarkt_sueddeutsche']  # here add more later
+SourceWebSites_List = ['immowelt', 'immobilienscout24', 'immobilienmarkt_sueddeutsche']  # here add more later
 
 input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] or more.. must be setted first
               'Message': [],
@@ -183,22 +183,27 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  # immobilienscout24
-  #input_List['Sourceweb'] = SourceWebSites_List[0]
-  #print('Initializing for immobilienscout24.de ...')
-  #if sourcewebsites._immobilienscout24(input_List):
-  #  print("Job is finished.")
-  #else:
-  #  print("Job is aborted with some errors!")
-  #  quit()
+  #['immowelt', 'immobilienscout24', 'immobilienmarkt_sueddeutsche']
+  #
+  #
   # immowelt
-  input_List['Sourceweb'] = SourceWebSites_List[1]
+  input_List['Sourceweb'] = SourceWebSites_List[0]
   print('Initializing for immowelt.de ...')
   if sourcewebsites._immowelt(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")
     quit()
+  #
+  # immobilienscout24
+  #input_List['Sourceweb'] = SourceWebSites_List[1]
+  #print('Initializing for immobilienscout24.de ...')
+  #if sourcewebsites._immobilienscout24(input_List):
+  #  print("Job is finished.")
+  #else:
+  #  print("Job is aborted with some errors!")
+  #  quit()
+  #
   # immobilienmarkt_sueddeutsche
   input_List['Sourceweb'] = SourceWebSites_List[2]
   print('Initializing for immobilienmarkt.sueddeutsche.de ...')
