@@ -2,18 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import re
 #import pprint
-
-from fake_useragent import UserAgent
+#from fake_useragent import UserAgent
    
 
 def gather_log_info_immobilienscout24(_url2scrape, filepath):
   res = requests.get(_url2scrape)
 
-  if res.status_code == 405:
-    ua = UserAgent()
-    header = {'User-Agent':str(ua.chrome)}
-    htmlContent = requests.get(_url2scrape, headers=header)
-    res = fake_it_make_it(_url2scrape)
+  #if res.status_code == 405:
+  #  ua = UserAgent()
+  #  header = {'User-Agent':str(ua.chrome)}
+  #  htmlContent = requests.get(_url2scrape, headers=header)
 
   soup = BeautifulSoup(res.text, 'html.parser')
 
@@ -121,3 +119,29 @@ def gather_log_info_immowelt(_url2scrape, filepath):
   return True 
 
 
+def gather_log_info_immobilienmarkt_sueddeutsche(_url2scrape, filepath):
+  res = requests.get(_url2scrape)
+  soup = BeautifulSoup(res.text, 'html.parser')
+
+  with open(filepath, mode='w') as outfile:
+    outfile.write('\n')
+    try:
+      main1 = soup.find('div', class_='exposeMain').text
+      outfile.write(re.sub("\s{4,}"," ",main1.strip()))
+    except:
+      pass
+    outfile.write('\n\n')
+    try:
+      main1 = soup.find('div', class_='exposeFactBox').text
+      outfile.write(re.sub("\s{4,}"," ",main1.strip()))
+    except:
+      pass
+    outfile.write('\n\n')
+    try:
+      for str_i in soup.find_all('div', class_='hidebox open'):
+        outfile.write(re.sub("\s{4,}"," ",str_i.text))
+    except:
+      pass
+    outfile.write('\n\n')
+  return True 
+#

@@ -184,13 +184,13 @@ def main():
     print('Default City <Muenchen> is selected!')
   #
   # immobilienscout24
-  input_List['Sourceweb'] = SourceWebSites_List[0]
-  print('Initializing for immobilienscout24.de ...')
-  if sourcewebsites._immobilienscout24(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
+  #input_List['Sourceweb'] = SourceWebSites_List[0]
+  #print('Initializing for immobilienscout24.de ...')
+  #if sourcewebsites._immobilienscout24(input_List):
+  #  print("Job is finished.")
+  #else:
+  #  print("Job is aborted with some errors!")
+  #  quit()
   # immowelt
   input_List['Sourceweb'] = SourceWebSites_List[1]
   print('Initializing for immowelt.de ...')
@@ -200,14 +200,13 @@ def main():
     print("Job is aborted with some errors!")
     quit()
   # immobilienmarkt_sueddeutsche
-  if input_List['SearchLocation'] == 'bayern/muenchen':
-    input_List['Sourceweb'] = SourceWebSites_List[2]
-    print('Initializing for immobilienmarkt.sueddeutsche.de ...')
-    if sourcewebsites._immobilienmarkt_sueddeutsche(input_List):
-      print("Job is finished.")
-    else:
-      print("Job is aborted with some errors!")
-      quit()
+  input_List['Sourceweb'] = SourceWebSites_List[2]
+  print('Initializing for immobilienmarkt.sueddeutsche.de ...')
+  if sourcewebsites._immobilienmarkt_sueddeutsche(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
 #
 if __name__ == '__main__':
     main()

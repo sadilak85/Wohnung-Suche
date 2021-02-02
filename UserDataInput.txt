@@ -20,10 +20,13 @@ City>>  München
 ['Muenchen: [M]', 'Berlin: [B]', 'Hamburg: [H]', 'Koeln: [K]', 'Frankfurt: [F]', 'Stuttgart: [S]', 'Duesseldorf: [D]']
 SearchLocation>>   M
 
-Budget>>	2000
+[bis xx euro]
+Budget>>	1500
 
+[ab x Zimmer]
 TotalRooms>>	3
 
+[ab x m2]
 SurfaceArea>>	100
 
 ['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']

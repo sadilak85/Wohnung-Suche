@@ -31,6 +31,7 @@ class ImmobilienSuche:
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--user-data-dir='+self.chromeprofilepath)
     chrome_options.add_argument("start-maximized")
+    #chrome_options.add_argument("window-size=1200x600")
 
     try:
       if self.browsertype =='Ie':
@@ -65,20 +66,28 @@ class ImmobilienSuche:
       if lastCount==lenOfPage:
         match=True
 
-  def check2click_element (self, _pathstring, _type):
+  def check2click_element (self, _pathstring):
     try:
-      if _type == 'visible':
-        self.element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
-        print('visibility of element located achieved')
-      if _type == 'present':
-        self.element = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
-        print('presence of element located achieved')
-      if _type == 'clickable':
-        self.element = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
-        print('presence of element to be clickable achieved')
+      self.element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
+      print('visibility of element located achieved')
+      return self.element
     except TimeoutException:
-      print ("Loading took too much time!")
+      print ("Loading took too much time for visibility of element located!")
       self.element =[]
+    try:
+      self.element = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
+      print('presence of element located achieved')
+      return self.element
+    except TimeoutException:
+      print ("Loading took too much time for presence of element located!")
+      self.element =[]
+    try:         
+      self.element = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
+      print('presence of element to be clickable achieved')
+      return self.element
+    except TimeoutException:
+      print ("Loading took too much time for element clickable!")
+      self.element =[]        
     return self.element
 
   def fill_TextBox(self, _pathstring, _str):
