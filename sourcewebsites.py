@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import Select
 #
 import time
 import os
-import re
 import shutil
 import pathlib
 from pathlib import Path
@@ -31,11 +30,10 @@ outdirsession = Path(outdir) / time.strftime("%Y%m%d-%H%M%S")
 os.mkdir(outdirsession)
 #
 def get_objectID(objecturl):
-  object_ID = re.search('expose/(.*)?', objecturl)
-  if object_ID != None:
-    object_ID=object_ID.group(1)
-  else:
-    object_ID = objecturl.split('expose/')[1]
+  try:
+    object_ID = objecturl.split('expose/')[1].split('?')[0]
+  except:
+    object_ID = None
   return object_ID
 
 def search_files_w_Object_ID(_checkfilenamestr):
@@ -144,6 +142,11 @@ def _immowelt(input_List):
   #
   #
   _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immowelt_')
+
+  print(_url2open)
+  print (object_ID_list)
+
+  quit()
 
   #Obj_immowelt.save_cookies()
   webbrowser.close()
