@@ -21,10 +21,10 @@ City>>  München
 SearchLocation>>   M
 
 [bis xx euro]
-Budget>>	1800
+Budget>>	1900
 
 [ab x Zimmer]
-TotalRooms>>   3
+TotalRooms>>   2
 
 [ab x m2]
 SurfaceArea>>	100

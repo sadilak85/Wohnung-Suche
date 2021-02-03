@@ -114,9 +114,7 @@ def _immowelt(input_List):
 
     Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
 
-    # submit button ? 
-
-    # extract the page info into log file
+     # extract the page info into log file
     filepath = os.path.join(outdirsession, 'Info_Immowelt_'+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immowelt(_url2open[i], filepath)
 
@@ -188,22 +186,34 @@ def _immobilienscout24(input_List):
       print(err)
       pass
 
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
     Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
     Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
     Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
     Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+    try:
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
+    except:
+      pass
 
 
-    # submit button ?
+    # submit button ?  weiter:  some of them has this option
+    # //*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span
+
+    # last send button:
+    # //*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button
+
+    while True:
+      print(webbrowser.find_element_by_xpath('//*[@id="expose-title"]').text)
+      time.sleep(5)
+    quit()
 
     # extract the page info into log file
     filepath = os.path.join(outdirsession, 'Immobilienscout24_'+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immobilienscout24(_url2open[i], filepath)
+    webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     
     webbrowser2focus.close()
   return True
@@ -301,7 +311,7 @@ def _null_provision(input_List):
 
     # extract the page info into log file
     filepath = os.path.join(outdirsession, 'null_provision_'+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immobilienscout24(_url2open[i], filepath)
+    webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     
     webbrowser2focus.close()
   return True
