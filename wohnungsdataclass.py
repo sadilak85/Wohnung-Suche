@@ -68,21 +68,21 @@ class ImmobilienSuche:
 
   def check2click_element (self, _pathstring):
     try:
-      self.element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
       print('visibility of element located achieved')
       return self.element
     except TimeoutException:
       print ("Loading took too much time for visibility of element located!")
       self.element =[]
     try:
-      self.element = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
       print('presence of element located achieved')
       return self.element
     except TimeoutException:
       print ("Loading took too much time for presence of element located!")
       self.element =[]
     try:         
-      self.element = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
       print('presence of element to be clickable achieved')
       return self.element
     except TimeoutException:

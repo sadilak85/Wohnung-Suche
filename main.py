@@ -11,7 +11,7 @@ TITLE = '''
 
 '''
 
-SourceWebSites_List = ['immowelt', 'immobilienscout24', 'immobilienmarkt_sueddeutsche']  # here add more later
+SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien']   # here add more later
 
 input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] or more.. must be setted first
               'Message': [],
@@ -24,7 +24,7 @@ input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] o
               'Housenumber': [],
               'PostalCode': [],
               'City': [],
-              'SearchLocation': 'Muenchen',
+              'SearchLocation': 'bayern/muenchen',
               'Budget': [],
               'TotalRooms': [],
               'SurfaceArea': [],
@@ -144,6 +144,21 @@ def main():
     print('You have entered: '+input_List['Housenumber'])
     print('Now aborting...')
     quit()
+  if not check_positive_integer(input_List['Budget']):
+    print('Budget entry in the file is incorrect, please correct it first and restart...')
+    print('You have entered: '+input_List['Budget'])
+    print('Now aborting...')
+    quit()
+  if not check_positive_integer(input_List['TotalRooms']):
+    print('Number of rooms entry in the file is incorrect, please correct it first and restart...')
+    print('You have entered: '+input_List['TotalRooms'])
+    print('Now aborting...')
+    quit()
+  if not check_positive_integer(input_List['SurfaceArea']):
+    print('Surface area entry in the file is incorrect, please correct it first and restart...')
+    print('You have entered: '+input_List['SurfaceArea'])
+    print('Now aborting...')
+    quit()             
   if not check_PLZ(input_List['PostalCode'] ):
     print('Post number (PLZ) entry in the file is incorrect, please correct it first and restart...')
     print('You have entered: '+input_List['PostalCode'])
@@ -183,8 +198,19 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  #['immowelt', 'immobilienscout24', 'immobilienmarkt_sueddeutsche']
+  #  ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien'] 
   #
+  # immobilienscout24
+  input_List['Sourceweb'] = SourceWebSites_List[1]
+  print('Initializing for immobilienscout24.de ...')
+  if sourcewebsites._immobilienscout24(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
+
+  quit()
+
   #
   # immowelt
   input_List['Sourceweb'] = SourceWebSites_List[0]
@@ -195,19 +221,28 @@ def main():
     print("Job is aborted with some errors!")
     quit()
   #
-  # immobilienscout24
-  #input_List['Sourceweb'] = SourceWebSites_List[1]
-  #print('Initializing for immobilienscout24.de ...')
-  #if sourcewebsites._immobilienscout24(input_List):
-  #  print("Job is finished.")
-  #else:
-  #  print("Job is aborted with some errors!")
-  #  quit()
+  # null-provision.de
+  input_List['Sourceweb'] = SourceWebSites_List[2]
+  print('Initializing for null-provision.de...')
+  if sourcewebsites._null_provision(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
   #
   # immobilienmarkt_sueddeutsche
-  input_List['Sourceweb'] = SourceWebSites_List[2]
+  input_List['Sourceweb'] = SourceWebSites_List[3]
   print('Initializing for immobilienmarkt.sueddeutsche.de ...')
   if sourcewebsites._immobilienmarkt_sueddeutsche(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
+  #
+  # ivd24immobilien
+  input_List['Sourceweb'] = SourceWebSites_List[4]
+  print('Initializing for ivd24immobilien.de ...')
+  if sourcewebsites._ivd24immobilien(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")

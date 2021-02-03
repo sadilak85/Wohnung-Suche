@@ -2,6 +2,7 @@ from wohnungsdataclass import ImmobilienSuche
 import webscrape
 #
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 #
 import time
 import os
@@ -119,7 +120,6 @@ def _immowelt(input_List):
     filepath = os.path.join(outdirsession, 'Info_Immowelt_'+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immowelt(_url2open[i], filepath)
 
-    
     #Obj_immowelt_ch.save_cookies()
     webbrowser2focus.close()
   return True
@@ -133,6 +133,11 @@ def _immobilienscout24(input_List):
   #
   #webbrowser.implicitly_wait(10)
   #
+  # Captcha !!! get rid of this manually!
+  while 'Robot' in webbrowser.title:
+    print('waiting from user to get rid of Captcha manually to continue')
+    time.sleep(15)
+      
   Obj_immobilienscout24.scroll_down()
   #
   _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'Immobilienscout24_', 'expose')
@@ -146,50 +151,203 @@ def _immobilienscout24(input_List):
     webbrowser2focus = Obj_immobilienscout24_ch.launchdriver(_url2open[i])
     time.sleep(2) # ## #
 
-    #Obj_immobilienscout24_ch.load_cookies()
+    webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
+    time.sleep(2)
 
-    # Click on the "Contact to" button 
-    #button = webbrowser2focus.find_element_by_xpath('//*[@id="is24-expose-contact-bar-top"]')
-    #webbrowser2focus.implicitly_wait(10)
-    #ActionChains(webbrowser2focus).move_to_element(button).click(button).perform()
-
-    element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-contact-bar-top"]')
-   
+    element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
     if element2click != []:
       try:
         element2click.click()
+        time.sleep(2)
       except:
         print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
         return False     
     else:
-      print("Button for 'Contact' is not clickable, the process is aborting...")
-      return False
+      print("Button for 'Contact' is not clickable, skipping this task...")
+      webbrowser2focus.close()
+      time.sleep(2)
+      continue
 
-    # Filling the form ### below must be implemented
-    select_salutation = Obj_immobilienscout24_ch.check2click_element('//*[@id="salutation"]')
+    # Filling the form
+    select_salutation = Obj_immobilienscout24_ch.check2click_element('//*[@id="contactForm-salutation"]')
+    if select_salutation != []:
+      try:
+        select_salutation.click()
+        time.sleep(2)
+      except:
+        print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
+        return False     
+    else:
+      print("Button for 'Contact' is not clickable, skipping this task...")
+      webbrowser2focus.close()
+      time.sleep(2)
+      continue
     try:
       Select(select_salutation).select_by_visible_text('Herr')
-      # Select(webbrowser2focus.find_element_by_xpath('//*[@id="salutation"]')).select_by_visible_text('Herr')
     except Exception as err:
       print(err)
-      return False
+      pass
 
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="email"]', input_List['Email'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="tel"]', input_List['Telephone'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
+    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
 
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
 
-    # submit button ? 
+    # submit button ?
 
     # extract the page info into log file
-    filepath = os.path.join(outdirsession, 'Info_Immowelt_'+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immowelt(_url2open[i], filepath)
+    filepath = os.path.join(outdirsession, 'Immobilienscout24_'+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immobilienscout24(_url2open[i], filepath)
     
-    #Obj_immobilienscout24_ch.save_cookies()
     webbrowser2focus.close()
+  return True
 
+def _null_provision(input_List):
+  unformatted_url = 'https://www.null-provision.de/mietwohnung,{l}.html?price={p}_euro&rooms=ab-{r}-zimmer&area=ab-{q}-qm&order=neueste'
+  url2open = unformatted_url.format(l=input_List['SearchLocation'],
+                                    r = '5' if int(input_List['TotalRooms']) > 5 else input_List['TotalRooms'],
+                                    p='bis_200' if int(input_List['Budget']) <= 200 
+                                    else 'bis_400' if int(input_List['Budget']) <= 400
+                                    else 'bis_600' if int(input_List['Budget']) <= 600
+                                    else 'bis_800' if int(input_List['Budget']) <= 800
+                                    else 'bis_1000' if int(input_List['Budget']) <= 1000
+                                    else 'bis_1250' if int(input_List['Budget']) <= 1250
+                                    else 'bis_1500' if int(input_List['Budget']) <= 1500
+                                    else 'bis_1750' if int(input_List['Budget']) <= 1750
+                                    else 'ab_1750' , 
+                                    q='40' if int(input_List['SurfaceArea']) < 60
+                                    else '60' if int(input_List['SurfaceArea']) < 80
+                                    else '80' if int(input_List['SurfaceArea']) < 100
+                                    else '100' if int(input_List['SurfaceArea']) < 120
+                                    else '120' if int(input_List['SurfaceArea']) < 140
+                                    else '140' if int(input_List['SurfaceArea']) < 160
+                                    else '160' if int(input_List['SurfaceArea']) < 180
+                                    else '180' if int(input_List['SurfaceArea']) < 200
+                                    else '200' )
+  #
+  Obj_null_provision = ImmobilienSuche(input_List)
+  webbrowser = Obj_null_provision.launchdriver(url2open)
+  #
+  _url2open, object_ID_list = wait_objects_loaded(webbrowser, 'null_provision_', 'angebot')
+  #Obj_immobilienscout24.save_cookies()
+  webbrowser.close()
+  #
+  # Open the objects found after search
+  for i in range(len(_url2open)):
+    _url2open[i] = _url2open[i].replace('https://www.null-provision.de/angebot/','https://www.immobilienscout24.de/expose/')
+    Obj_null_provision_ch = ImmobilienSuche(input_List)
+    webbrowser2focus = Obj_null_provision_ch.launchdriver(_url2open[i])
+    time.sleep(2) #
+
+    # Captcha !!! get rid of this shit manually first!
+    while 'Robot' in webbrowser2focus.title:
+      print('waiting from user to get rid of Captcha manually to continue')
+      time.sleep(15)
+
+    webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
+    time.sleep(2)
+
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
+    if element2click != []:
+      try:
+        element2click.click()
+        time.sleep(2)
+      except:
+        print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
+        return False     
+    else:
+      print("Button for 'Contact' is not clickable, skipping this task...")
+      webbrowser2focus.close()
+      time.sleep(2)
+      continue
+
+    # Filling the form
+    select_salutation = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
+    if select_salutation != []:
+      try:
+        select_salutation.click()
+        time.sleep(2)
+      except:
+        print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
+        return False     
+    else:
+      print("Button for 'Contact' is not clickable, skipping this task...")
+      webbrowser2focus.close()
+      time.sleep(2)
+      continue    
+    try:
+      Select(select_salutation).select_by_visible_text('Herr')
+    except Exception as err:
+      print(err)
+      pass
+
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
+    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+
+    # submit button ?
+
+    # extract the page info into log file
+    filepath = os.path.join(outdirsession, 'null_provision_'+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immobilienscout24(_url2open[i], filepath)
+    
+    webbrowser2focus.close()
+  return True
+
+def _ivd24immobilien(input_List):
+  Obj_ivd24immobilien = ImmobilienSuche(input_List)
+  webbrowser = Obj_ivd24immobilien.launchdriver('https://www.ivd24immobilien.de/')
+
+  select = webbrowser.find_element_by_xpath("//div[contains(@class, 'SumoSelect sumo_anzahl_zimmer')]")
+  select.click()
+
+  if int(input_List['TotalRooms'])<3:
+    select = webbrowser.find_element_by_xpath('//*[@id="search-form"]/div/div[4]/div/div/ul/li[2]')
+    select.click()
+  elif int(input_List['TotalRooms'])<4:
+    select = webbrowser.find_element_by_xpath('//*[@id="search-form"]/div/div[4]/div/div/ul/li[3]')
+    select.click()
+  else:
+    select = webbrowser.find_element_by_xpath('//*[@id="search-form"]/div/div[4]/div/div/ul/li[4]')
+    select.click()
+
+  Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[5]/input', input_List['Budget'])
+  Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[6]/input', input_List['SurfaceArea'])
+
+  #Obj_ivd24immobilien.fill_TextBox('//*[@id="photon_ortschaft"]', input_List['SearchLocation'].split('/')[1])
+  #webbrowser.find_element_by_xpath('//*[@id="ui-id-1"]').click()
+  
+  element = webbrowser.find_element_by_xpath('//input[contains(@placeholder, "Wo | Ort, Stadtteil, PLZ, Objekt-ID")]')
+  element.send_keys(input_List['SearchLocation'].split('/')[1])
+
+  webbrowser.find_element_by_xpath("//span[contains(@class, 'ac-label') and text()='München']").click()
+
+
+
+  element2click = Obj_ivd24immobilien.check2click_element('//*[@id="search-submit"]')
+  if element2click != []:
+    try:
+      element2click.click()
+    except:
+      print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
+      return False     
+  else:
+    print("Button for 'Contact' is not clickable, the process is aborting...")
+    return False
+
+  time.sleep(10)
   return True
 
 def _immobilienmarkt_sueddeutsche(input_List):
