@@ -43,9 +43,10 @@ class ImmobilienSuche:
     except:
       print('\n\nYou must close all opened selenium browser drivers then restart the process again!\n')
       quit()
-
+    time.sleep(1)
     #self.driver.maximize_window()
     self.driver.get(_url2open)
+    time.sleep(1)
     return self.driver
 
   #def load_cookies(self):

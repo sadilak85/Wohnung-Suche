@@ -1,6 +1,17 @@
-import sourcewebsites
+#
+import source_websites_py.immobilienscout24
+import source_websites_py.immowelt
+import source_websites_py.immobilienmarkt_sueddeutsche
+import source_websites_py.ivd24immobilien
+import source_websites_py.null_provision
+#
 import re
-
+import os
+import os.path
+import time
+import shutil
+import pathlib
+from pathlib import Path
 
 TITLE = '''
 
@@ -11,7 +22,25 @@ TITLE = '''
 
 '''
 
-SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien']   # here add more later
+# Paths:
+currentdir = os.path.dirname(os.path.realpath(__file__))
+UserDataInput = Path(currentdir) / 'UserInputs' / 'UserDataInput.txt'
+MessageFile = Path(currentdir) / 'UserInputs' / 'message.txt'
+PostalCodeFile = Path(currentdir) / 'UserInputs' / 'PostalCodesDE.txt'
+
+outdir = Path(currentdir) / "Output"
+if not os.path.exists(outdir):
+    os.mkdir(outdir)
+
+try:
+	for folder in list(os.walk(outdir))[1:]:
+		if not folder[2]:
+			shutil.rmtree(folder[0], ignore_errors=True) # Delete the empty folders in <outdir> directory
+except:
+	pass
+
+outdirsession = Path(outdir) / time.strftime("%Y%m%d-%H%M%S")
+os.mkdir(outdirsession)
 
 input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] or more.. must be setted first
               'Message': [],
@@ -28,14 +57,10 @@ input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] o
               'Budget': [],
               'TotalRooms': [],
               'SurfaceArea': [],
-              'ChromeUserProfilePath': []
+              'ChromeUserProfilePath': [],
+              'Outputdirectory': outdirsession
 }
-try:
-  filename = open('message.txt', "r")
-  input_List['Message'] = filename.read()
-  filename.close()
-except:
-  print("Input file error: Check if file named 'UserDataInput.txt' available in main folder")
+
 
 def request_user_input(prompt='> '):
     """Request input from the user and return what has been entered."""
@@ -53,7 +78,7 @@ def check_positive_integer(num):
     return False
 
 def check_PLZ(num):
-  with open('PostalCodesDE.txt', mode='r') as infile:
+  with open(PostalCodeFile, mode='r') as infile:
     lines = [line.rstrip() for line in infile]
     for line in lines:
       if num == line:
@@ -64,7 +89,17 @@ def main():
   print('-------------------------------------------------')
   print(TITLE)
   print('-------------------------------------------------')
-  with open('UserDataInput.txt', mode='r', encoding="utf-8") as infile:
+  #
+  # Message file check!!!
+  try:
+    filename = open(MessageFile, "r")
+    input_List['Message'] = filename.read()
+    filename.close()
+  except:
+    print("Input file error: Check if file named 'UserDataInput.txt' available in ./UserInputs folder")
+  #
+  #
+  with open(UserDataInput, mode='r', encoding="utf-8") as infile:
     lines = [line.rstrip() for line in infile]
     for line in lines:
       try:
@@ -198,24 +233,21 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  #  ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien'] 
-  #
-  # immobilienscout24
-  input_List['Sourceweb'] = SourceWebSites_List[1]
-  print('Initializing for immobilienscout24.de ...')
-  if sourcewebsites._immobilienscout24(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-
-  quit()
-
+  SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien']  
   #
   # immowelt
   input_List['Sourceweb'] = SourceWebSites_List[0]
   print('Initializing for immowelt.de ...')
-  if sourcewebsites._immowelt(input_List):
+  if source_websites_py.immowelt._immowelt(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
+  #
+  # immobilienscout24
+  input_List['Sourceweb'] = SourceWebSites_List[1]
+  print('Initializing for immobilienscout24.de ...')
+  if source_websites_py.immobilienscout24._immobilienscout24(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")
@@ -224,7 +256,7 @@ def main():
   # null-provision.de
   input_List['Sourceweb'] = SourceWebSites_List[2]
   print('Initializing for null-provision.de...')
-  if sourcewebsites._null_provision(input_List):
+  if source_websites_py.null_provision._null_provision(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")
@@ -233,7 +265,7 @@ def main():
   # immobilienmarkt_sueddeutsche
   input_List['Sourceweb'] = SourceWebSites_List[3]
   print('Initializing for immobilienmarkt.sueddeutsche.de ...')
-  if sourcewebsites._immobilienmarkt_sueddeutsche(input_List):
+  if source_websites_py.immobilienmarkt_sueddeutsche._immobilienmarkt_sueddeutsche(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")
@@ -242,7 +274,7 @@ def main():
   # ivd24immobilien
   input_List['Sourceweb'] = SourceWebSites_List[4]
   print('Initializing for ivd24immobilien.de ...')
-  if sourcewebsites._ivd24immobilien(input_List):
+  if source_websites_py.ivd24immobilien._ivd24immobilien(input_List):
     print("Job is finished.")
   else:
     print("Job is aborted with some errors!")
