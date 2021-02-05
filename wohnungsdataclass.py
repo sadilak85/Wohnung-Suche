@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -49,7 +48,7 @@ class ImmobilienSuche:
     #
     # Captcha !!! get rid of this shit manually first!
     while 'Robot' in self.driver.title:
-      print('waiting from user to get rid of Captcha manually to continue')
+      print('\nwaiting from user to get rid of Captcha manually to continue\n')
       time.sleep(15)
     #     
     return self.driver
@@ -103,15 +102,15 @@ class ImmobilienSuche:
         time.sleep(2)
         return 'clicked'
       except:
-        print("Button for 'Contact' can not be clicked, it is being obscured by something")
-        print("Waiting to remove this obstacle")
+        print(".................\nButton for 'Contact' can not be clicked, it is being obscured by something")
+        print("Waiting to remove this obstacle\n")
         while True:
           a = input("Do you want to skip this process? (Yes/No)")
           b = a.lower()
           if b == "yes" or b == "no":
             break
           else:
-            print("Enter either yes/no")
+            print("\n-----> Enter either yes/no")
         if b == "yes":
           return 'error'
         if b == "no":

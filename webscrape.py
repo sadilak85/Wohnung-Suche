@@ -26,6 +26,10 @@ def gather_log_info_immobilienscout24(webbrowser, filepath):
   
   return True
 
+def gather_log_info_immonet(_url2scrape, filepath):
+  pass
+
+
 
 def gather_log_info_immowelt(_url2scrape, filepath):
   htmlContent = requests.get(_url2scrape)

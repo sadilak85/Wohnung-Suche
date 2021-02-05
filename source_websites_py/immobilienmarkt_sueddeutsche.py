@@ -2,8 +2,6 @@ from wohnungsdataclass import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
-from selenium.webdriver.support.ui import Select
-#
 import time
 import os
 import os.path
@@ -26,8 +24,6 @@ def _immobilienmarkt_sueddeutsche(input_List):
 
   Obj_sueddeutsche = ImmobilienSuche(input_List)
   webbrowser = Obj_sueddeutsche.launchdriver(url2open)
-  #Obj_sueddeutsche.load_cookies()
-  #Obj_sueddeutsche.scroll_down()
   #
   # Open the objects found after search
 
@@ -37,6 +33,8 @@ def _immobilienmarkt_sueddeutsche(input_List):
   max_elts = len(element2click_list)
 
   for i in range(max_elts-1):
+    if i == int(input_List['MaxObj2Search']):
+      break
     element2click_list = webbrowser.find_elements_by_xpath(xpath)
     try:
       if element2click_list[i].is_displayed():
@@ -44,25 +42,34 @@ def _immobilienmarkt_sueddeutsche(input_List):
         Obj_sueddeutsche.scroll_down()
         object_ID = webbrowser.find_element_by_class_name('exposeId').find_element_by_xpath('.//span').get_attribute('textContent')
         _filenamestr = 'Info_Immobilienmarkt_sueddeutsche_'+object_ID
-        if not search_files_w_Object_ID(_filenamestr):
+        if not functions_sourcewebsite.search_files_w_Object_ID(_filenamestr):
           # extract the page info into log file
           filepath = os.path.join(input_List['Outputdirectory'], _filenamestr+'.log')
           webscrape.gather_log_info_immobilienmarkt_sueddeutsche('http://immo.sz.de/'+object_ID, filepath)        
           # fill in the contact formular
-          Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfirstname"]', input_List['Firstname'])
-          Obj_sueddeutsche.fill_TextBox('//*[@id="idDRlastname"]', input_List['Lastname'])
-          Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfrom"]', input_List['Email'])
-          Obj_sueddeutsche.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
-          Obj_sueddeutsche.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
+          try:
+            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfirstname"]', input_List['Firstname'])
+            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRlastname"]', input_List['Lastname'])
+            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfrom"]', input_List['Email'])
+            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
+            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
+          except:
+            print('\n-----> Complete the form manually to finish\n')
+            time.sleep(10)
           #click radio buttons
-          webbrowser.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
-          webbrowser.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
-          webbrowser.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
+          try:
+            webbrowser.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
+            webbrowser.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
+            webbrowser.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
+          except:
+            print("\n-----> click the check boxes in the form manually!\n")
+            time.sleep(10)
+            pass
           # click on submit button
           submitbutton = webbrowser.find_element_by_xpath('//*[@id="directReqShort"]')
-          #submitbutton.click()  # are you sure now?
-
-          
+          #submitbutton.click()
+          print(submitbutton)
+  
         webbrowser.execute_script("window.history.go(-1)")
     except:
       pass

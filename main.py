@@ -13,6 +13,10 @@ import time
 import shutil
 import pathlib
 from pathlib import Path
+#
+#import pdb
+#pdb.set_trace()
+#
 
 TITLE = '''
 
@@ -46,6 +50,7 @@ os.mkdir(outdirsession)
 input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] or more.. must be setted first
               'Message': [],
               'Sourceweb' : [],
+              'Salutation': [],
               'Firstname': [],
               'Lastname': [],
               'Email': [],
@@ -58,6 +63,7 @@ input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] o
               'Budget': [],
               'TotalRooms': [],
               'SurfaceArea': [],
+              'MaxObj2Search': [],
               'ChromeUserProfilePath': [],
               'Outputdirectory': outdirsession
 }
@@ -99,6 +105,10 @@ def main():
   with open(UserDataInput, mode='r', encoding="utf-8") as infile:
     lines = [line.rstrip() for line in infile]
     for line in lines:
+      try:
+        input_List['Salutation'] = line.split('Salutation>>',1)[1].strip()
+      except:
+        pass 
       try:
         input_List['Firstname'] = line.split('Firstname>>',1)[1].strip()
       except:
@@ -154,7 +164,11 @@ def main():
       try:
         input_List['Browsertype'] = line.split('Browsertype>>',1)[1].strip()
       except:
-        pass      
+        pass
+      try:
+        input_List['MaxObj2Search'] = line.split('MaxObj2Search>>',1)[1].strip()
+      except:
+        pass        
   #
   if len(input_List['Firstname'])<=2:
     print('You must enter a name longer than 2 letters...')
@@ -167,40 +181,53 @@ def main():
     print('Now aborting...')
     quit()  
   if not check_positive_integer(input_List['Telephone']):
-    print('Telephone number entry in the file is incorrect, please correct it first and restart...')
+    print('Telephone number entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['Telephone'])
     print('Now aborting...')
     quit()
   if not check_positive_integer(input_List['Housenumber']):
-    print('House number entry in the file is incorrect, please correct it first and restart...')
+    print('House number entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['Housenumber'])
     print('Now aborting...')
     quit()
   if not check_positive_integer(input_List['Budget']):
-    print('Budget entry in the file is incorrect, please correct it first and restart...')
+    print('Budget entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['Budget'])
     print('Now aborting...')
     quit()
   if not check_positive_integer(input_List['TotalRooms']):
-    print('Number of rooms entry in the file is incorrect, please correct it first and restart...')
+    print('Number of rooms entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['TotalRooms'])
     print('Now aborting...')
     quit()
   if not check_positive_integer(input_List['SurfaceArea']):
-    print('Surface area entry in the file is incorrect, please correct it first and restart...')
+    print('Surface area entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['SurfaceArea'])
     print('Now aborting...')
-    quit()             
+    quit()
+  if not check_positive_integer(input_List['MaxObj2Search']):
+    print('Max object to search entry in User Input File is incorrect, please correct it and then restart...')
+    print('You have entered: '+input_List['MaxObj2Search'])
+    print('Now aborting...')
+    quit()          
   if not check_PLZ(input_List['PostalCode'] ):
-    print('Post number (PLZ) entry in the file is incorrect, please correct it first and restart...')
+    print('Post number (PLZ) entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['PostalCode'])
     print('Now aborting...')
     quit()
   if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", input_List['Email']):
-    print('Email entry in the file is incorrect, please correct it first and restart...')
+    print('Email entry in User Input File is incorrect, please correct it and then restart...')
     print('You have entered: '+input_List['Email'])
     print('Now aborting...')
     quit()
+  # 
+  index = input_List['Salutation']
+  if index == 'H':
+    input_List['Salutation'] = 'Herr'
+  elif index == 'F':
+    input_List['Salutation'] = 'Frau'
+  else:
+    print('Default Salutation <Herr> is selected!')
   #
   index = input_List['Browsertype']
   if index == 'C':

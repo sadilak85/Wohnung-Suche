@@ -9,11 +9,6 @@ import os
 import os.path
 #
 #
-#import pdb
-#pdb.set_trace()
-#
-
-
 def _immobilienscout24(input_List):
   unformatted_url = 'https://www.immobilienscout24.de/Suche/de/{l}/wohnung-mieten?numberofrooms={r}.0-&price=-{p}.0&livingspace={q}.0-&pricetype=rentpermonth&sorting=2'
   url2open = unformatted_url.format(l=input_List['SearchLocation'], r=input_List['TotalRooms'], p=input_List['Budget'], q=input_List['SurfaceArea'])
@@ -30,12 +25,14 @@ def _immobilienscout24(input_List):
   #
   # Open the objects found after search
   for i in range(len(_url2open)):
+    if i == int(input_List['MaxObj2Search']):
+      break
     Obj_immobilienscout24_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immobilienscout24_ch.launchdriver(_url2open[i])
-
+    #
     webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
     time.sleep(2)
-
+    #
     element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
     cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
     if cont =='clicked':
@@ -55,25 +52,29 @@ def _immobilienscout24(input_List):
       time.sleep(2)
       continue
     try:
-      Select(select_salutation).select_by_visible_text('Herr')
-    except Exception as err:
-      print(err)
-      print('Select manually the title: Herr/Frau')
+      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+    except:
+      print('\n-----> Select manually the title: Herr/Frau\n')
       time.sleep(10)      
       pass
-
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
-    Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
     try:
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
+      Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
+    # some extra information on some objects extra
+    try: 
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
     except:
-      pass
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
     # 
     # Submit Form 
     #
@@ -97,7 +98,7 @@ def _immobilienscout24(input_List):
       time.sleep(2)      
       continue
     else:
-      print('Message is successfully sent;)!')
+      print('..................\n Message is successfully sent;)! \n......................')
       # extract the page info into log file
       filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
       webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)

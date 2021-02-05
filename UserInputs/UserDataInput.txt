@@ -1,5 +1,7 @@
  
 ---> Please fill in the correct fields in order to run process without problems
+['Herr: [H]', 'Frau: [F]']
+Salutation>> H
 
 Firstname>>	 Thomas
 
@@ -28,6 +30,9 @@ TotalRooms>>   2
 
 [ab x m2]
 SurfaceArea>>	100
+
+[Give an upper limit on total objects to search and connect for each website]
+MaxObj2Search>> 3
 
 ['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']
 Browsertype>> C

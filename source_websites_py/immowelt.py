@@ -29,6 +29,8 @@ def _immowelt(input_List):
   #
   # Open the objects found after search
   for i in range(len(_url2open)):
+    if i == int(input_List['MaxObj2Search']):
+      break
     Obj_immowelt_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
     #Obj_immowelt_ch.load_cookies()
@@ -53,20 +55,29 @@ def _immowelt(input_List):
       time.sleep(2)      
       continue
     try:
-      Select(select_salutation).select_by_visible_text('Herr')
-      # Select(webbrowser2focus.find_element_by_xpath('//*[@id="salutation"]')).select_by_visible_text('Herr')
-    except Exception as err:
-      print(err)
-      print('Select manually the title: Herr/Frau')
+      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+    except:
+      print('\n-----> Select manually the title: Herr/Frau\n')
       time.sleep(10)
       pass
+    try:
+      Obj_immowelt_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="email"]', input_List['Email'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="tel"]', input_List['Telephone'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
 
-    Obj_immowelt_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="email"]', input_List['Email'])
-    Obj_immowelt_ch.fill_TextBox('//*[@id="tel"]', input_List['Telephone'])
-
-    Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
+    # Click on the radioboxes under message box
+    try:
+      Obj_immowelt_ch.cont_clicked_element (Obj_immowelt_ch.check2click_element('//*[@id="requestMoreInformation"]'))
+      Obj_immowelt_ch.cont_clicked_element (Obj_immowelt_ch.check2click_element('//*[@id="requestCallback"]'))
+    except:
+      print("\n-----> click the check boxes: 'Infomaterial anfordern' 'Rückruf'\n")
+      time.sleep(10)
+      pass
 
     #submit here
   

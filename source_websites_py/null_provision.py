@@ -8,10 +8,6 @@ import time
 import os
 import os.path
 #
-#
-#import pdb
-#pdb.set_trace()
-#
 
 def _null_provision(input_List):
   unformatted_url = 'https://www.null-provision.de/mietwohnung,{l}.html?price={p}_euro&rooms=ab-{r}-zimmer&area=ab-{q}-qm&order=neueste'
@@ -41,59 +37,84 @@ def _null_provision(input_List):
   #
   filenamekeystr = 'null_provision_'
   _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'angebot')
-  #Obj_immobilienscout24.save_cookies()
+  #
   webbrowser.close()
   #
   # Open the objects found after search
   for i in range(len(_url2open)):
+    if i == int(input_List['MaxObj2Search']):
+      break
     _url2open[i] = _url2open[i].replace('https://www.null-provision.de/angebot/','https://www.immobilienscout24.de/expose/')
     Obj_null_provision_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_null_provision_ch.launchdriver(_url2open[i])
+    #
     webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
     time.sleep(1)
+    #
     element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
     cont = Obj_null_provision_ch.cont_clicked_element (element2click)
-    if cont =='error':
-      return False
-    elif cont == 'continue':
+    if cont =='clicked':
+      pass
+    else:
       webbrowser2focus.close()
       time.sleep(2)      
       continue
-    else:
-      pass
 
     # Filling the form
     select_salutation = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
     cont = Obj_null_provision_ch.cont_clicked_element (select_salutation)
-    if cont =='error':
-      return False
+    if cont == 'clicked':
+      pass
+    else:
+      webbrowser2focus.close()
+      time.sleep(2)
+      continue
+    try:
+      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+    except:
+      print('\n-----> Select manually the title: Herr/Frau\n')
+      time.sleep(10)
+      pass
+    try:
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
+    #
+    # submit button ?
+    #
+    time.sleep(3)
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
+    cont = Obj_null_provision_ch.cont_clicked_element (element2click)
+    if cont =='error': #if no send button maybe check "weiter" button 
+      element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
+      cont = Obj_null_provision_ch.cont_clicked_element (element2click)
+      if cont =='error':
+        continue
+      elif cont == 'continue':
+        webbrowser2focus.close()
+        time.sleep(2)      
+        continue
+      else: # last send button after manullay filling the last page after weiter button
+        time.sleep('10')
+        pass
     elif cont == 'continue':
       webbrowser2focus.close()
       time.sleep(2)      
       continue
     else:
-      pass
-    try:
-      Select(select_salutation).select_by_visible_text('Herr')
-    except Exception as err:
-      print(err)
-      pass
-
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
-    Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
-
-    # submit button ?
-
-    # extract the page info into log file
-    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
-    
+      print('..................\n Message is successfully sent;)! \n......................')
+      # extract the page info into log file
+      filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
+      webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
+    # 
     webbrowser2focus.close()
   return True

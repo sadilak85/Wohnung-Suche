@@ -35,6 +35,8 @@ def _immonet(input_List):
   #
   # Open the objects found after search
   for i in range(len(_url2open)):
+    if i == int(input_List['MaxObj2Search']):
+      break
     Obj_immonet_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immonet_ch.launchdriver(_url2open[i])
 
@@ -65,22 +67,27 @@ def _immonet(input_List):
     else:
       pass
     try:
-      Select(select_salutation).select_by_visible_text('Herr')
-    except Exception as err:
-      print(err)
+      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+    except:
+      print('\n-----> Select manually the title: Herr/Frau\n')
+      time.sleep(10)
       pass
+    try:
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
 
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
-    Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
 
-    # submit button ?
+    # submit button ?  wait to be submittable
 
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamestr+object_ID_list[i]+'.log')
