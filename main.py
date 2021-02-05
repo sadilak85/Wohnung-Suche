@@ -4,6 +4,7 @@ import source_websites_py.immowelt
 import source_websites_py.immobilienmarkt_sueddeutsche
 import source_websites_py.ivd24immobilien
 import source_websites_py.null_provision
+import source_websites_py.immonet
 #
 import re
 import os
@@ -233,7 +234,19 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien']  
+  SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet']
+  #
+
+  # immonet
+  input_List['Sourceweb'] = SourceWebSites_List[5]
+  print('Initializing for immonet.de ...')
+  if source_websites_py.immonet._immonet(input_List):
+    print("Job is finished.")
+  else:
+    print("Job is aborted with some errors!")
+    quit()
+
+
   #
   # immowelt
   input_List['Sourceweb'] = SourceWebSites_List[0]
