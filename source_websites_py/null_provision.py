@@ -39,7 +39,8 @@ def _null_provision(input_List):
   Obj_null_provision = ImmobilienSuche(input_List)
   webbrowser = Obj_null_provision.launchdriver(url2open)
   #
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, 'null_provision_', 'angebot')
+  filenamekeystr = 'null_provision_'
+  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'angebot')
   #Obj_immobilienscout24.save_cookies()
   webbrowser.close()
   #
@@ -48,18 +49,10 @@ def _null_provision(input_List):
     _url2open[i] = _url2open[i].replace('https://www.null-provision.de/angebot/','https://www.immobilienscout24.de/expose/')
     Obj_null_provision_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_null_provision_ch.launchdriver(_url2open[i])
-    time.sleep(2) #
-
-    # Captcha !!! get rid of this shit manually first!
-    while 'Robot' in webbrowser2focus.title:
-      print('waiting from user to get rid of Captcha manually to continue')
-      time.sleep(15)
-
     webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
-    time.sleep(2)
-
+    time.sleep(1)
     element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
-    cont = functions_sourcewebsite.cont_clicked_element (element2click)
+    cont = Obj_null_provision_ch.cont_clicked_element (element2click)
     if cont =='error':
       return False
     elif cont == 'continue':
@@ -71,7 +64,7 @@ def _null_provision(input_List):
 
     # Filling the form
     select_salutation = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
-    cont = functions_sourcewebsite.cont_clicked_element (select_salutation)
+    cont = Obj_null_provision_ch.cont_clicked_element (select_salutation)
     if cont =='error':
       return False
     elif cont == 'continue':
@@ -99,7 +92,7 @@ def _null_provision(input_List):
     # submit button ?
 
     # extract the page info into log file
-    filepath = os.path.join(input_List['Outputdirectory'], 'null_provision_'+object_ID_list[i]+'.log')
+    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     
     webbrowser2focus.close()

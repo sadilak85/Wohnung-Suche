@@ -33,15 +33,3 @@ def wait_objects_loaded(_driver, _urlnamestr, _keystr):
     time.sleep(5)
   return _url2open, object_ID_list
   
-def cont_clicked_element(_element2click):
-  if _element2click != []:
-    try:
-      _element2click.click()
-      time.sleep(2)
-      return 'clicked'
-    except:
-      print("Button for 'Contact' can not be clicked, it is being obscured by something, the process is aborting...")
-      return 'error'   
-  else:
-    print("Button for 'Contact' does not exist, skipping this task...")
-    return 'continue' 

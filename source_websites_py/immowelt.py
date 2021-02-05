@@ -19,27 +19,23 @@ def _immowelt(input_List):
   #
   Obj_immowelt = ImmobilienSuche(input_List)
   webbrowser = Obj_immowelt.launchdriver(url2open)
-  #time.sleep(3)
-  #Obj_immowelt.load_cookies()
   Obj_immowelt.scroll_down()
   #
   #
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, 'Immowelt_','expose')
+  filenamekeystr = 'Immowelt_'
+  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr,'expose')
 
-  #Obj_immowelt.save_cookies()
   webbrowser.close()
   #
   # Open the objects found after search
   for i in range(len(_url2open)):
     Obj_immowelt_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
-    time.sleep(8) # increase here
-
     #Obj_immowelt_ch.load_cookies()
-
+    #
     # Click on the "Contact to" button
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')    ######?? working????
-    cont = functions_sourcewebsite.cont_clicked_element (element2click)
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')
+    cont = Obj_immowelt_ch.cont_clicked_element (element2click)
     if cont =='clicked':
       pass
     else:
@@ -49,7 +45,7 @@ def _immowelt(input_List):
 
     # Filling the form
     select_salutation = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
-    cont = functions_sourcewebsite.cont_clicked_element (select_salutation)
+    cont = Obj_immowelt_ch.cont_clicked_element (select_salutation)
     if cont =='clicked':
       pass
     else:
@@ -72,8 +68,10 @@ def _immowelt(input_List):
 
     Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
 
-     # extract the page info into log file
-    filepath = os.path.join(input_List['Outputdirectory'], 'Info_Immowelt_'+object_ID_list[i]+'.log')
+    #submit here
+  
+    # extract the page info into log file
+    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immowelt(_url2open[i], filepath)
 
     #Obj_immowelt_ch.save_cookies()

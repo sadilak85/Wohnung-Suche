@@ -21,14 +21,10 @@ def _immobilienscout24(input_List):
   Obj_immobilienscout24 = ImmobilienSuche(input_List)
   webbrowser = Obj_immobilienscout24.launchdriver(url2open)
   #
-  # Captcha !!! get rid of this manually!
-  while 'Robot' in webbrowser.title:
-    print('waiting from user to get rid of Captcha manually to continue')
-    time.sleep(15)
-      
   Obj_immobilienscout24.scroll_down()
   #
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, 'Immobilienscout24_', 'expose')
+  filenamekeystr = 'Immobilienscout24_'
+  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'expose')
   #
   webbrowser.close()
   #
@@ -36,13 +32,12 @@ def _immobilienscout24(input_List):
   for i in range(len(_url2open)):
     Obj_immobilienscout24_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immobilienscout24_ch.launchdriver(_url2open[i])
-    time.sleep(2) # ## #
 
     webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
     time.sleep(2)
 
     element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
-    cont = functions_sourcewebsite.cont_clicked_element (element2click)
+    cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
     if cont =='clicked':
       pass
     else:
@@ -52,7 +47,7 @@ def _immobilienscout24(input_List):
 
     # Filling the form
     select_salutation = Obj_immobilienscout24_ch.check2click_element('//*[@id="contactForm-salutation"]')
-    cont = functions_sourcewebsite.cont_clicked_element (select_salutation)
+    cont = Obj_immobilienscout24_ch.cont_clicked_element (select_salutation)
     if cont == 'clicked':
       pass
     else:
@@ -84,10 +79,10 @@ def _immobilienscout24(input_List):
     #
     time.sleep(3)
     element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
-    cont = functions_sourcewebsite.cont_clicked_element (element2click)
+    cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
     if cont =='error': #if no send button maybe check "weiter" button 
       element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
-      cont = functions_sourcewebsite.cont_clicked_element (element2click)
+      cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
       if cont =='error':
         continue
       elif cont == 'continue':
@@ -104,7 +99,7 @@ def _immobilienscout24(input_List):
     else:
       print('Message is successfully sent;)!')
       # extract the page info into log file
-      filepath = os.path.join(input_List['Outputdirectory'], 'Immobilienscout24_'+object_ID_list[i]+'.log')
+      filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
       webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     #    
     webbrowser2focus.close()

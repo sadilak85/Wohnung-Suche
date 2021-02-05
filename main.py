@@ -62,10 +62,6 @@ input_List = {'Browsertype': 'Chrome', # Browsers: ['Ie', 'Chrome', 'Firefox'] o
               'Outputdirectory': outdirsession
 }
 
-
-def request_user_input(prompt='> '):
-    """Request input from the user and return what has been entered."""
-    return input(prompt)
   
 def check_positive_integer(num):
   try:
@@ -236,62 +232,14 @@ def main():
   #
   SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet']
   #
-
-  # immonet
-  input_List['Sourceweb'] = SourceWebSites_List[5]
-  print('Initializing for immonet.de ...')
-  if source_websites_py.immonet._immonet(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-
-
-  #
-  # immowelt
-  input_List['Sourceweb'] = SourceWebSites_List[0]
-  print('Initializing for immowelt.de ...')
-  if source_websites_py.immowelt._immowelt(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-  #
-  # immobilienscout24
-  input_List['Sourceweb'] = SourceWebSites_List[1]
-  print('Initializing for immobilienscout24.de ...')
-  if source_websites_py.immobilienscout24._immobilienscout24(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-  #
-  # null-provision.de
-  input_List['Sourceweb'] = SourceWebSites_List[2]
-  print('Initializing for null-provision.de...')
-  if source_websites_py.null_provision._null_provision(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-  #
-  # immobilienmarkt_sueddeutsche
-  input_List['Sourceweb'] = SourceWebSites_List[3]
-  print('Initializing for immobilienmarkt.sueddeutsche.de ...')
-  if source_websites_py.immobilienmarkt_sueddeutsche._immobilienmarkt_sueddeutsche(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
-  #
-  # ivd24immobilien
-  input_List['Sourceweb'] = SourceWebSites_List[4]
-  print('Initializing for ivd24immobilien.de ...')
-  if source_websites_py.ivd24immobilien._ivd24immobilien(input_List):
-    print("Job is finished.")
-  else:
-    print("Job is aborted with some errors!")
-    quit()
+  for i, _webstr in enumerate(SourceWebSites_List):
+    input_List['Sourceweb'] = _webstr
+    print('Initializing for {}.de ...'.format(_webstr))
+    if eval("source_websites_py."+ "{s}._{s}".format(s=_webstr) + "(input_List)"):
+      print("Process for {} is finished.".format(_webstr))
+    else:
+      print("Process for {} ended with some errors!".format(_webstr))
+      #quit()
 #
 if __name__ == '__main__':
     main()

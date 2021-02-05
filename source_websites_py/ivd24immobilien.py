@@ -12,7 +12,6 @@ import os.path
 #import pdb
 #pdb.set_trace()
 #
-
 def _ivd24immobilien(input_List):
   Obj_ivd24immobilien = ImmobilienSuche(input_List)
   webbrowser = Obj_ivd24immobilien.launchdriver('https://www.ivd24immobilien.de/')
@@ -42,7 +41,7 @@ def _ivd24immobilien(input_List):
   webbrowser.find_element_by_xpath("//span[contains(@class, 'ac-label') and text()='München']").click()
 
   element2click = Obj_ivd24immobilien.check2click_element('//*[@id="search-submit"]')
-  cont = functions_sourcewebsite.cont_clicked_element (element2click)
+  cont = Obj_ivd24immobilien.cont_clicked_element (element2click)
   if cont =='error':
     return False
   else:

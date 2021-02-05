@@ -46,7 +46,12 @@ class ImmobilienSuche:
     time.sleep(1)
     #self.driver.maximize_window()
     self.driver.get(_url2open)
-    time.sleep(1)
+    #
+    # Captcha !!! get rid of this shit manually first!
+    while 'Robot' in self.driver.title:
+      print('waiting from user to get rid of Captcha manually to continue')
+      time.sleep(15)
+    #     
     return self.driver
 
   #def load_cookies(self):
@@ -90,6 +95,31 @@ class ImmobilienSuche:
       print ("Loading took too much time for element clickable!")
       self.element =[]        
     return self.element
+
+  def cont_clicked_element(self, _element2click):
+    while _element2click != []:
+      try:
+        _element2click.click()
+        time.sleep(2)
+        return 'clicked'
+      except:
+        print("Button for 'Contact' can not be clicked, it is being obscured by something")
+        print("Waiting to remove this obstacle")
+        while True:
+          a = input("Do you want to skip this process? (Yes/No)")
+          b = a.lower()
+          if b == "yes" or b == "no":
+            break
+          else:
+            print("Enter either yes/no")
+        if b == "yes":
+          return 'error'
+        if b == "no":
+          print("Please click 'OK' or 'Zulassen' in case of 'Privacy Settings' or 'Wir benötigen Ihre Zustimmung' ")
+          time.sleep(10)
+          continue
+    print("Button for 'Contact' does not exist, skipping this task...")
+    return 'continue' 
 
   def fill_TextBox(self, _pathstring, _str):
     textbox = self.driver.find_element_by_xpath(_pathstring)
