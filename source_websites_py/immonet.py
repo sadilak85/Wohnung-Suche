@@ -1,4 +1,4 @@
-from wohnungsdataclass import ImmobilienSuche
+from driverinteraction import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
@@ -36,6 +36,7 @@ def _immonet(input_List):
   # Open the objects found after search
   for i in range(len(_url2open)):
     if i == int(input_List['MaxObj2Search']):
+      print('max number of objects to search is achieved')
       break
     Obj_immonet_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immonet_ch.launchdriver(_url2open[i])
@@ -94,4 +95,9 @@ def _immonet(input_List):
     webscrape.gather_log_info_immonet(webbrowser2focus, filepath)
     
     webbrowser2focus.close()
+  if _url2open == []:
+    print("\nOops! You did a very unique thing!")
+    print("\nAll objects found are already processed in a previous session.")
+    print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
+    print("\n-----------------------------------------------------------")         
   return True

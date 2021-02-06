@@ -1,4 +1,4 @@
-from wohnungsdataclass import ImmobilienSuche
+from driverinteraction import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
@@ -29,9 +29,12 @@ def _ivd24immobilien(input_List):
     select = webbrowser.find_element_by_xpath('//*[@id="search-form"]/div/div[4]/div/div/ul/li[4]')
     select.click()
 
-  Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[5]/input', input_List['Budget'])
-  Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[6]/input', input_List['SurfaceArea'])
-
+  try:
+    Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[5]/input', input_List['Budget'])
+    Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[6]/input', input_List['SurfaceArea'])
+  except:
+    print('\n-----> Complete the form manually to finish\n')
+    time.sleep(10)
   #Obj_ivd24immobilien.fill_TextBox('//*[@id="photon_ortschaft"]', input_List['SearchLocation'].split('/')[1])
   #webbrowser.find_element_by_xpath('//*[@id="ui-id-1"]').click()
   

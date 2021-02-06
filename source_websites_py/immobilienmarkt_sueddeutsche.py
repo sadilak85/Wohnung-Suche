@@ -1,4 +1,4 @@
-from wohnungsdataclass import ImmobilienSuche
+from driverinteraction import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
@@ -34,6 +34,7 @@ def _immobilienmarkt_sueddeutsche(input_List):
 
   for i in range(max_elts-1):
     if i == int(input_List['MaxObj2Search']):
+      print('max number of objects to search is achieved')
       break
     element2click_list = webbrowser.find_elements_by_xpath(xpath)
     try:

@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException
 #from selenium.webdriver.firefox.options import Options
 #
 import time
+import sys
 #import pickle
 
 class ImmobilienSuche:
@@ -29,6 +30,8 @@ class ImmobilienSuche:
   def launchdriver(self, _url2open):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--user-data-dir='+self.chromeprofilepath)
+    chrome_options.add_argument("--ignore-certificate-error")
+    chrome_options.add_argument("--ignore-ssl-errors")    
     chrome_options.add_argument("start-maximized")
     #chrome_options.add_argument("window-size=1200x600")
 
@@ -47,9 +50,12 @@ class ImmobilienSuche:
     self.driver.get(_url2open)
     #
     # Captcha !!! get rid of this shit manually first!
-    while 'Robot' in self.driver.title:
+    if 'Robot' in self.driver.title:
+      time.sleep(3)
       print('\nwaiting from user to get rid of Captcha manually to continue\n')
-      time.sleep(15)
+      while 'Robot' in self.driver.title:
+        time.sleep(3)
+      ProgressBar()
     #     
     return self.driver
 
@@ -124,6 +130,19 @@ class ImmobilienSuche:
     textbox = self.driver.find_element_by_xpath(_pathstring)
     textbox.clear()
     textbox.send_keys(_str)
+
+def ProgressBar():
+  toolbar_width = 50
+  # setup toolbar
+  sys.stdout.write("[%s]" % (" " * toolbar_width))
+  sys.stdout.flush()
+  sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
+  for i in range(toolbar_width):
+      time.sleep(0.1) # do real work here
+      # update the bar
+      sys.stdout.write("|")
+      sys.stdout.flush()
+  sys.stdout.write("]\n") # this ends the progress bar
 
 #
 #

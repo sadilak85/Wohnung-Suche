@@ -1,4 +1,4 @@
-from wohnungsdataclass import ImmobilienSuche
+from driverinteraction import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
@@ -43,6 +43,7 @@ def _null_provision(input_List):
   # Open the objects found after search
   for i in range(len(_url2open)):
     if i == int(input_List['MaxObj2Search']):
+      print('max number of objects to search is achieved')
       break
     _url2open[i] = _url2open[i].replace('https://www.null-provision.de/angebot/','https://www.immobilienscout24.de/expose/')
     Obj_null_provision_ch = ImmobilienSuche(input_List)
@@ -95,6 +96,7 @@ def _null_provision(input_List):
     element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
     cont = Obj_null_provision_ch.cont_clicked_element (element2click)
     if cont =='error': #if no send button maybe check "weiter" button 
+      print("trying to click on 'Weiter' button")
       element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
       cont = Obj_null_provision_ch.cont_clicked_element (element2click)
       if cont =='error':
@@ -117,4 +119,9 @@ def _null_provision(input_List):
       webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     # 
     webbrowser2focus.close()
+  if _url2open == []:
+    print("\nOops! You did a very unique thing!")
+    print("\nAll objects found are already processed in a previous session.")
+    print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
+    print("\n-----------------------------------------------------------")   
   return True

@@ -1,4 +1,4 @@
-from wohnungsdataclass import ImmobilienSuche
+from driverinteraction import ImmobilienSuche
 import functions_sourcewebsite
 import webscrape
 #
@@ -26,6 +26,7 @@ def _immobilienscout24(input_List):
   # Open the objects found after search
   for i in range(len(_url2open)):
     if i == int(input_List['MaxObj2Search']):
+      print('max number of objects to search is achieved')
       break
     Obj_immobilienscout24_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immobilienscout24_ch.launchdriver(_url2open[i])
@@ -79,9 +80,15 @@ def _immobilienscout24(input_List):
     # Submit Form 
     #
     time.sleep(3)
+    # Check if Send button exist , some cases there is Weiter button instead:
     element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
     cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
-    if cont =='error': #if no send button maybe check "weiter" button 
+    if cont =='error':  
+      webbrowser2focus.close()
+      time.sleep(2)      
+      continue
+    elif cont == 'continue': #if no send button maybe check "weiter" button
+      print("trying to click on 'Weiter' button")
       element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
       cont = Obj_immobilienscout24_ch.cont_clicked_element (element2click)
       if cont =='error':
@@ -91,12 +98,8 @@ def _immobilienscout24(input_List):
         time.sleep(2)      
         continue
       else: # last send button after manullay filling the last page after weiter button
-        time.sleep('10')
+        time.sleep(10)
         pass
-    elif cont == 'continue':
-      webbrowser2focus.close()
-      time.sleep(2)      
-      continue
     else:
       print('..................\n Message is successfully sent;)! \n......................')
       # extract the page info into log file
@@ -104,5 +107,10 @@ def _immobilienscout24(input_List):
       webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
     #    
     webbrowser2focus.close()
+  if _url2open == []:
+    print("\nOops! You did a very unique thing!")
+    print("\nAll objects found are already processed in a previous session.")
+    print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
+    print("\n-----------------------------------------------------------")   
   return True
 
