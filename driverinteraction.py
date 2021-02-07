@@ -118,10 +118,14 @@ class ImmobilienSuche:
         if b == "yes":
           return 'obscured'
         if b == "no":
-          print("Please click 'OK' or 'Zulassen' in case of 'Privacy Settings' or 'Wir benötigen Ihre Zustimmung' ")
-          time.sleep(10)
+          print(".................\nPlease click 'OK' or 'Zulassen' in case of 'Privacy Settings' or 'Wir benötigen Ihre Zustimmung' ")
+          print("\nAfter finishing press a key to continue\n")
+          while True:
+            a = input("\n-----> press any key to continue")
+            if a != []:
+              break
           continue
-    print("Button on interested webpage <Element on Selenium Driver> does not exist, skipping this task...")
+    print("Button on interested webpage (Element on Selenium Driver) does not exist, skipping this task...")
     return 'ignore'
 
   def fill_TextBox(self, _pathstring, _str):

@@ -1,40 +1,93 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-#import pprint
-#from fake_useragent import UserAgent
-
-
+#
 def gather_log_info_immobilienscout24(webbrowser, filepath):
-
-#  htmlContent = requests.get(_url2scrape)
-  
-#  if htmlContent.status_code == 405:
-#    ua = UserAgent()
-#    header = {'User-Agent':str(ua.chrome)}
-#    htmlContent = requests.get(_url2scrape, headers=header)
-
-#  soup = BeautifulSoup(htmlContent.text, 'html.parser')
-
   with open(filepath, mode='w') as outfile:
     outfile.write('\n')
     try:
-      outfile.write(webbrowser.find_element_by_xpath('//*[@id="expose-title"]').text)
+      outfile.write(webbrowser.find_element_by_xpath('//*[@id="is24-content"]').text)
     except:
       pass
+
     outfile.write('\n\n')
   
   return True
 
 def gather_log_info_immonet(_url2scrape, filepath):
-  pass
-
-
+  htmlContent = requests.get(_url2scrape)
+  soup = BeautifulSoup(htmlContent.text, 'html.parser')
+  #
+  with open(filepath, mode='w') as outfile:
+    outfile.write('\n')
+    try:
+      maintitle = soup.find('h1', {'id': 'expose-headline'}).text
+      outfile.write(re.sub("\s{4,}"," ",maintitle.strip()))
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panelPrices')
+      _list = _panel.find_all('div', class_='row list-100')
+      outfile.write('\nPREISE & KOSTEN:\n')
+      for i in _list:    
+        outfile.write(re.sub("\s{4,}"," ",i.text.strip()))
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panelObjectstate')
+      _list = _panel.find_all('div', class_='row list-100')
+      outfile.write('\nGRÖSSE & ZUSTAND:\n')
+      for i in _list:
+        outfile.write(re.sub("\s{4,}"," ",i.text.strip()))
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panel-energy-pass')
+      _list = _panel.find_all('div', class_='row list-100')
+      outfile.write('\nENERGIE:\n')
+      for i in _list:
+        outfile.write(re.sub("\s{4,}"," ",i.text.strip()))
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='ausstattung')
+      outfile.write('\nAUSSTATTUNG:\n')
+      outfile.write(_panel.get_text("\n").strip())
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panelObjectdescription')
+      outfile.write('\nOBJEKTBESCHREIBUNG:\n')
+      outfile.write(_panel.get_text("\n").strip())
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panelLocationDescription')
+      outfile.write('\nLAGE:\n')
+      outfile.write(_panel.get_text("\n").strip())
+    except:
+      pass
+    #
+    try:
+      _panel = soup.find('div', id='panelOther')
+      outfile.write('\nSONSTIGES:\n')
+      outfile.write(_panel.get_text("\n").strip())
+    except:
+      pass
+  #
+  return True 
+  #
 
 def gather_log_info_immowelt(_url2scrape, filepath):
   htmlContent = requests.get(_url2scrape)
   soup = BeautifulSoup(htmlContent.text, 'html.parser')
-
+  #
   with open(filepath, mode='w') as outfile:
     outfile.write('\n')
     try:
@@ -88,7 +141,7 @@ def gather_log_info_immowelt(_url2scrape, filepath):
 def gather_log_info_immobilienmarkt_sueddeutsche(_url2scrape, filepath):
   htmlContent = requests.get(_url2scrape)
   soup = BeautifulSoup(htmlContent.text, 'html.parser')
-
+  #
   with open(filepath, mode='w') as outfile:
     outfile.write('\n')
     try:
@@ -111,4 +164,3 @@ def gather_log_info_immobilienmarkt_sueddeutsche(_url2scrape, filepath):
     outfile.write('\n\n')
   return True 
 #
-

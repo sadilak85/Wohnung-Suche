@@ -59,7 +59,7 @@ def _immonet(input_List):
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:
@@ -72,7 +72,7 @@ def _immonet(input_List):
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_annotations"]', input_List['Message'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:
@@ -84,7 +84,7 @@ def _immonet(input_List):
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_city"]', input_List['City'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:

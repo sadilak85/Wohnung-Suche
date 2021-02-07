@@ -51,4 +51,4 @@ def wait_objects_loaded_sueddeutsche(_driver, _urlnamestr):
           if object_ID not in object_ID_list:
             object_ID_list.append(object_ID)
   return _url2open, object_ID_list
-  
+

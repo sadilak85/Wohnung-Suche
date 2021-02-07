@@ -63,7 +63,7 @@ def _immobilienmarkt_sueddeutsche(input_List):
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
     except:
       print(".................\nClick the check boxes in the form manually!")
-      print("After clicking is finished or if no form is available, press a key to continue\n")
+      print("\nAfter clicking is finished or if no form is available, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:

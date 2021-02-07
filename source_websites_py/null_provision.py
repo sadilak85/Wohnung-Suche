@@ -76,7 +76,7 @@ def _null_provision(input_List):
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:
@@ -89,7 +89,7 @@ def _null_provision(input_List):
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:
@@ -102,7 +102,7 @@ def _null_provision(input_List):
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      print("After finishing, press a key to continue\n")
+      print("\nAfter finishing, press a key to continue\n")
       while True:
         a = input("\n-----> press any key to continue")
         if a != []:
@@ -135,7 +135,7 @@ def _null_provision(input_List):
         element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
         while element2click != []:
           print("\n----->Finish filling this optional page and click 'Anfrage Senden' button!\n")
-          print("After finishing, press a key to continue\n")
+          print("\nAfter finishing, press a key to continue\n")
           while True:
             a = input("\n-----> press any key to continue")
             if a != []:

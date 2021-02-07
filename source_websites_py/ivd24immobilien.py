@@ -34,7 +34,7 @@ def _ivd24immobilien(input_List):
     Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[6]/input', input_List['SurfaceArea'])
   except:
     print('\n-----> Complete the form manually to finish\n')
-    print("After finishing, press a key to continue\n")
+    print("\nAfter finishing, press a key to continue\n")
     while True:
       a = input("\n-----> press any key to continue")
       if a != []:
