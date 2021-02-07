@@ -25,56 +25,65 @@ def _immobilienmarkt_sueddeutsche(input_List):
   Obj_sueddeutsche = ImmobilienSuche(input_List)
   webbrowser = Obj_sueddeutsche.launchdriver(url2open)
   #
+  filenamekeystr = 'Immobilienmarkt_sueddeutsche_'
+  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded_sueddeutsche(webbrowser, filenamekeystr)
+  #
+  webbrowser.close()
+  #
   # Open the objects found after search
-
-  xpath = "//div[contains(@class, 'hitHeadline')]"
-
-  element2click_list = webbrowser.find_elements_by_xpath(xpath)
-  max_elts = len(element2click_list)
-
-  for i in range(max_elts-1):
+  for i in range(len(_url2open)):
     if i == int(input_List['MaxObj2Search']):
       print('max number of objects to search is achieved')
       break
-    element2click_list = webbrowser.find_elements_by_xpath(xpath)
+    Obj_sueddeutsche_ch = ImmobilienSuche(input_List)
+    webbrowser2focus = Obj_sueddeutsche_ch.launchdriver(_url2open[i])
+    #
     try:
-      if element2click_list[i].is_displayed():
-        element2click_list[i].click()
-        Obj_sueddeutsche.scroll_down()
-        object_ID = webbrowser.find_element_by_class_name('exposeId').find_element_by_xpath('.//span').get_attribute('textContent')
-        _filenamestr = 'Info_Immobilienmarkt_sueddeutsche_'+object_ID
-        if not functions_sourcewebsite.search_files_w_Object_ID(_filenamestr):
-          # extract the page info into log file
-          filepath = os.path.join(input_List['Outputdirectory'], _filenamestr+'.log')
-          webscrape.gather_log_info_immobilienmarkt_sueddeutsche('http://immo.sz.de/'+object_ID, filepath)        
-          # fill in the contact formular
-          try:
-            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfirstname"]', input_List['Firstname'])
-            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRlastname"]', input_List['Lastname'])
-            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRfrom"]', input_List['Email'])
-            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
-            Obj_sueddeutsche.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
-          except:
-            print('\n-----> Complete the form manually to finish\n')
-            time.sleep(10)
-          #click radio buttons
-          try:
-            webbrowser.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
-            webbrowser.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
-            webbrowser.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
-          except:
-            print("\n-----> click the check boxes in the form manually!\n")
-            time.sleep(10)
-            pass
-          # click on submit button
-          submitbutton = webbrowser.find_element_by_xpath('//*[@id="directReqShort"]')
-          #submitbutton.click()
-          print(submitbutton)
-  
-        webbrowser.execute_script("window.history.go(-1)")
+      webbrowser2focus.execute_script("arguments[0].scrollIntoView();", webbrowser2focus.find_element_by_xpath('//*[@id="directReqShort"]'))
     except:
-      pass
+      Obj_sueddeutsche_ch.scroll_down()
+    # fill in the contact formular
+    try:
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRfirstname"]', input_List['Firstname'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRlastname"]', input_List['Lastname'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRfrom"]', input_List['Email'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
+    #click radio buttons
+    try:
+      webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
+      webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
+      webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
+    except:
+      print("\n-----> click the check boxes in the form manually!\n")
+      time.sleep(10)
+    # Submit the Form
+    element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]')
+    cont = Obj_sueddeutsche_ch.continue2click_element(element2click)
+    if cont =='clicked':
+      print(element2click)
+      # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+      time.sleep(2)
+      print('......................\n Message is successfully sent;)! \n......................')
+    else:
+      webbrowser2focus.close()
+      time.sleep(2)      
+      continue
+  
+    # extract the page info into log file
+    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immobilienmarkt_sueddeutsche(_url2open[i], filepath)
 
-  #Obj_sueddeutsche_ch.save_cookies()
-  webbrowser.close()
+    webbrowser2focus.close()
+  if _url2open == []:
+    print("\nOops! You did a very unique thing!")
+    print("\nAll objects found are already processed in a previous session.")
+    print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
+    print("\n-----------------------------------------------------------")  
+    
+#webbrowser2focus.execute_script("window.history.go(-1)")
+
   return True  

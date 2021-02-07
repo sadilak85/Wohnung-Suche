@@ -44,9 +44,12 @@ def _ivd24immobilien(input_List):
   webbrowser.find_element_by_xpath("//span[contains(@class, 'ac-label') and text()='München']").click()
 
   element2click = Obj_ivd24immobilien.check2click_element('//*[@id="search-submit"]')
-  cont = Obj_ivd24immobilien.cont_clicked_element (element2click)
-  if cont =='error':
+  cont = Obj_ivd24immobilien.continue2click_element(element2click)
+  if cont =='obscured':
     return False
+  elif cont == 'clicked':
+    element2click.click()
+    time.sleep(2)    
   else:
     webbrowser.close()
     time.sleep(2)      

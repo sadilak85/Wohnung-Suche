@@ -3,6 +3,7 @@ import functions_sourcewebsite
 import webscrape
 #
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 #
 import time
 import os
@@ -28,8 +29,8 @@ def _immonet(input_List):
   Obj_immonet = ImmobilienSuche(input_List)
   webbrowser = Obj_immonet.launchdriver(url2open)
   #
-  filenamestr = 'immonet'
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamestr, 'angebot')
+  filenamekeystr = 'immonet'
+  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'angebot')
   #Obj_immonet.save_cookies()
   webbrowser.close()
   #
@@ -41,63 +42,66 @@ def _immonet(input_List):
     Obj_immonet_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immonet_ch.launchdriver(_url2open[i])
 
-    # Click on the "Contact to" button
-    webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
-    time.sleep(2)
-
-    element2click = Obj_immonet_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
-    cont = Obj_immonet_ch.cont_clicked_element (element2click)
-    if cont =='error':
-      return False
-    elif cont == 'continue':
+    # Scroll to contact formular and fill it: 
+    ActionChains(webbrowser2focus).move_to_element(webbrowser2focus.find_element_by_xpath('//*[@id="sbc_submit"]')).perform()
+    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_salutation"]')
+    cont = Obj_immonet_ch.continue2click_element(element2click)
+    if cont =='clicked':
+      ActionChains(webbrowser2focus).click(element2click).perform()
+      #element2click.click()
+      time.sleep(2)      
+      pass
+    else:
       webbrowser2focus.close()
       time.sleep(2)      
       continue
-    else:
-      pass
-
-    # Filling the form
-    select_salutation = Obj_immonet_ch.check2click_element('//*[@id="contactForm-salutation"]')
-    cont = Obj_immonet_ch.cont_clicked_element (select_salutation)
-    if cont =='error':
-      return False
-    elif cont == 'continue':
-      webbrowser2focus.close()
-      time.sleep(2)      
-      continue
-    else:
-      pass
     try:
-      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+      Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
       time.sleep(10)
       pass
     try:
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
-      Obj_immonet_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_prename"]', input_List['Firstname'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_surname"]', input_List['Lastname'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_email"]', input_List['Email'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_phone"]', input_List['Telephone'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_annotations"]', input_List['Message'])
     except:
       print('\n-----> Complete the form manually to finish\n')
       time.sleep(10)
-
-
-    # submit button ?  wait to be submittable
-
+    # some extra information on some objects extra given
+    try: 
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_street"]', input_List['Street']+' '+input_List['Housenumber'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_zip"]', input_List['PostalCode'])
+      Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_city"]', input_List['City'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
+    #
+    # submit the Form:  
+    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]')
+    cont = Obj_immonet_ch.continue2click_element(element2click)
+    if cont =='clicked':
+      print(element2click)
+      # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+      time.sleep(2)
+      print('......................\n Message is successfully sent;)! \n......................')
+    else:
+      webbrowser2focus.close()
+      time.sleep(2)      
+      continue
+  
     # extract the page info into log file
-    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamestr+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immonet(webbrowser2focus, filepath)
-    
+    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immonet(_url2open[i], filepath)
+
     webbrowser2focus.close()
   if _url2open == []:
     print("\nOops! You did a very unique thing!")
     print("\nAll objects found are already processed in a previous session.")
     print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
-    print("\n-----------------------------------------------------------")         
+    print("\n-----------------------------------------------------------")   
   return True
+#
+#

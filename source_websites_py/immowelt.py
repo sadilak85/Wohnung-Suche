@@ -34,29 +34,30 @@ def _immowelt(input_List):
       break
     Obj_immowelt_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
-    #Obj_immowelt_ch.load_cookies()
     #
     # Click on the "Contact to" button
     element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')
-    cont = Obj_immowelt_ch.cont_clicked_element (element2click)
+    cont = Obj_immowelt_ch.continue2click_element(element2click)
     if cont =='clicked':
-      pass
+      element2click.click()
+      time.sleep(2) 
     else:
       webbrowser2focus.close()
       time.sleep(2)      
       continue
 
     # Filling the form
-    select_salutation = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
-    cont = Obj_immowelt_ch.cont_clicked_element (select_salutation)
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
+    cont = Obj_immowelt_ch.continue2click_element(element2click)
     if cont =='clicked':
-      pass
+      element2click.click()
+      time.sleep(2) 
     else:
       webbrowser2focus.close()
       time.sleep(2)      
       continue
     try:
-      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+      Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
       time.sleep(10)
@@ -73,20 +74,34 @@ def _immowelt(input_List):
 
     # Click on the radioboxes under message box
     try:
-      Obj_immowelt_ch.cont_clicked_element (Obj_immowelt_ch.check2click_element('//*[@id="requestMoreInformation"]'))
-      Obj_immowelt_ch.cont_clicked_element (Obj_immowelt_ch.check2click_element('//*[@id="requestCallback"]'))
+      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestMoreInformation"]')
+      Obj_immowelt_ch.continue2click_element(element2click)
+      element2click.click()
+      time.sleep(2)
+      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestCallback"]')
+      Obj_immowelt_ch.continue2click_element(element2click)
+      element2click.click()
+      time.sleep(2)
     except:
       print("\n-----> click the check boxes: 'Infomaterial anfordern' 'Rückruf'\n")
       time.sleep(10)
-      pass
 
-    #submit here
+    # Submit the Form
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]')
+    cont = Obj_immowelt_ch.continue2click_element(element2click)
+    if cont =='clicked':
+      # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+      time.sleep(2)
+      print('......................\n Message is successfully sent;)! \n......................')
+    else:
+      webbrowser2focus.close()
+      time.sleep(2)      
+      continue
   
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immowelt(_url2open[i], filepath)
 
-    #Obj_immowelt_ch.save_cookies()
     webbrowser2focus.close()
   if _url2open == []:
     print("\nOops! You did a very unique thing!")

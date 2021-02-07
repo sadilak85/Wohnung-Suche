@@ -53,71 +53,88 @@ def _null_provision(input_List):
     time.sleep(1)
     #
     element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
-    cont = Obj_null_provision_ch.cont_clicked_element (element2click)
+    cont = Obj_null_provision_ch.continue2click_element(element2click)
     if cont =='clicked':
-      pass
+      element2click.click()
+      time.sleep(2)
     else:
       webbrowser2focus.close()
       time.sleep(2)      
       continue
 
     # Filling the form
-    select_salutation = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
-    cont = Obj_null_provision_ch.cont_clicked_element (select_salutation)
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
+    cont = Obj_null_provision_ch.continue2click_element(element2click)
     if cont == 'clicked':
-      pass
+      element2click.click()
+      time.sleep(2)
     else:
       webbrowser2focus.close()
       time.sleep(2)
       continue
     try:
-      Select(select_salutation).select_by_visible_text(input_List['Salutation'])
+      Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
       time.sleep(10)
       pass
     try:
+      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-lastName"]', input_List['Lastname'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-emailAddress"]', input_List['Email'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
+    except:
+      print('\n-----> Complete the form manually to finish\n')
+      time.sleep(10)
+    # some extra information on some objects extra given
+    try: 
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-houseNumber"]', input_List['Housenumber'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
-      Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
     except:
       print('\n-----> Complete the form manually to finish\n')
       time.sleep(10)
-    #
-    # submit button ?
+    # 
+    # Submit Form 
     #
     time.sleep(3)
+    # Check if "Anfrage Senden" button exists:
     element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
-    cont = Obj_null_provision_ch.cont_clicked_element (element2click)
-    if cont =='error': #if no send button maybe check "weiter" button 
-      print("trying to click on 'Weiter' button")
-      element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
-      cont = Obj_null_provision_ch.cont_clicked_element (element2click)
-      if cont =='error':
-        continue
-      elif cont == 'continue':
-        webbrowser2focus.close()
-        time.sleep(2)      
-        continue
-      else: # last send button after manullay filling the last page after weiter button
-        time.sleep('10')
-        pass
-    elif cont == 'continue':
+    cont = Obj_null_provision_ch.continue2click_element(element2click)
+    if cont =='obscured':  
       webbrowser2focus.close()
       time.sleep(2)      
       continue
+    elif cont == 'ignore': #if no send button maybe check "Weiter" button
+      print("trying to click on 'Weiter' button")
+      # Check if "Weiter" button exists:
+      element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
+      cont = Obj_null_provision_ch.continue2click_element(element2click)
+      if cont =='obscured':
+        continue
+      elif cont == 'ignore':
+        webbrowser2focus.close()
+        time.sleep(2)
+        continue
+      else: # last page "Anfrage Senden" button, after manullay filling this page with extra optional questions
+        element2click.click()
+        element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
+        while element2click != []:
+          time.sleep(5)
+          print("\nFinish filling this optional page and click 'Anfrage Senden' button! \n")
+          time.sleep(5)
+          element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
     else:
-      print('..................\n Message is successfully sent;)! \n......................')
-      # extract the page info into log file
-      filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
-      webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
-    # 
+      #element2click.click()  ###################  Burayi en son comment out yap !! ##################
+      time.sleep(2)
+
+    print('......................\n Message is successfully sent;)! \n......................')
+    # extract the page info into log file
+    filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
+    webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
+    #    
     webbrowser2focus.close()
   if _url2open == []:
     print("\nOops! You did a very unique thing!")
@@ -125,3 +142,6 @@ def _null_provision(input_List):
     print("\nIf you want to process on some of those objects again, you must delete their log files in 'Output' folder!!!")
     print("\n-----------------------------------------------------------")   
   return True
+#
+#
+#

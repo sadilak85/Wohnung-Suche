@@ -257,15 +257,16 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet']
+  #SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet']
+  SourceWebSites_List = ['immonet']
   #
   for i, _webstr in enumerate(SourceWebSites_List):
     input_List['Sourceweb'] = _webstr
-    print('Initializing for {}.de ...'.format(_webstr))
+    print('......................\nInitializing for {}.de \n......................'.format(_webstr))
     if eval("source_websites_py."+ "{s}._{s}".format(s=_webstr) + "(input_List)"):
-      print("Process for {} is finished.".format(_webstr))
+      print("......................\nProcess for {} is finished.\n......................".format(_webstr))
     else:
-      print("Process for {} ended with some errors!".format(_webstr))
+      print("......................\n Process for {} ended with some errors!\n......................".format(_webstr))
       #quit()
 #
 if __name__ == '__main__':

@@ -79,21 +79,21 @@ class ImmobilienSuche:
 
   def check2click_element (self, _pathstring):
     try:
-      self.element = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
       print('visibility of element located achieved')
       return self.element
     except TimeoutException:
       print ("Loading took too much time for visibility of element located!")
       self.element =[]
     try:
-      self.element = WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
       print('presence of element located achieved')
       return self.element
     except TimeoutException:
       print ("Loading took too much time for presence of element located!")
       self.element =[]
     try:         
-      self.element = WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
+      self.element = WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
       print('presence of element to be clickable achieved')
       return self.element
     except TimeoutException:
@@ -101,11 +101,9 @@ class ImmobilienSuche:
       self.element =[]        
     return self.element
 
-  def cont_clicked_element(self, _element2click):
+  def continue2click_element(self, _element2click):
     while _element2click != []:
       try:
-        _element2click.click()
-        time.sleep(2)
         return 'clicked'
       except:
         print(".................\nButton for 'Contact' can not be clicked, it is being obscured by something")
@@ -118,13 +116,13 @@ class ImmobilienSuche:
           else:
             print("\n-----> Enter either yes/no")
         if b == "yes":
-          return 'error'
+          return 'obscured'
         if b == "no":
           print("Please click 'OK' or 'Zulassen' in case of 'Privacy Settings' or 'Wir benötigen Ihre Zustimmung' ")
           time.sleep(10)
           continue
-    print("Button for 'Contact' does not exist, skipping this task...")
-    return 'continue' 
+    print("Button on interested webpage <Element on Selenium Driver> does not exist, skipping this task...")
+    return 'ignore'
 
   def fill_TextBox(self, _pathstring, _str):
     textbox = self.driver.find_element_by_xpath(_pathstring)
