@@ -59,8 +59,11 @@ def _immonet(input_List):
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
-      time.sleep(10)
-      pass
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     try:
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_prename"]', input_List['Firstname'])
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_surname"]', input_List['Lastname'])
@@ -69,7 +72,11 @@ def _immonet(input_List):
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_annotations"]', input_List['Message'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     # some extra information on some objects extra given
     try: 
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_street"]', input_List['Street']+' '+input_List['Housenumber'])
@@ -77,7 +84,11 @@ def _immonet(input_List):
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_city"]', input_List['City'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     #
     # submit the Form:  
     element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]')

@@ -76,8 +76,11 @@ def _null_provision(input_List):
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
-      time.sleep(10)
-      pass
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     try:
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
@@ -86,7 +89,11 @@ def _null_provision(input_List):
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     # some extra information on some objects extra given
     try: 
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
@@ -95,7 +102,11 @@ def _null_provision(input_List):
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     # 
     # Submit Form 
     #
@@ -120,11 +131,15 @@ def _null_provision(input_List):
         continue
       else: # last page "Anfrage Senden" button, after manullay filling this page with extra optional questions
         element2click.click()
+        time.sleep(4)
         element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
         while element2click != []:
-          time.sleep(5)
-          print("\nFinish filling this optional page and click 'Anfrage Senden' button! \n")
-          time.sleep(5)
+          print("\n----->Finish filling this optional page and click 'Anfrage Senden' button!\n")
+          print("After finishing, press a key to continue\n")
+          while True:
+            a = input("\n-----> press any key to continue")
+            if a != []:
+              break
           element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
     else:
       #element2click.click()  ###################  Burayi en son comment out yap !! ##################

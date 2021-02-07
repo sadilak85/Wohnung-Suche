@@ -60,8 +60,11 @@ def _immowelt(input_List):
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
       print('\n-----> Select manually the title: Herr/Frau\n')
-      time.sleep(10)
-      pass
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     try:
       Obj_immowelt_ch.fill_TextBox('//*[@id="firstname"]', input_List['Firstname'])
       Obj_immowelt_ch.fill_TextBox('//*[@id="lastname"]', input_List['Lastname'])
@@ -70,7 +73,11 @@ def _immowelt(input_List):
       Obj_immowelt_ch.fill_TextBox('//*[@id="message"]', input_List['Message'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break      
 
     # Click on the radioboxes under message box
     try:
@@ -84,7 +91,11 @@ def _immowelt(input_List):
       time.sleep(2)
     except:
       print("\n-----> click the check boxes: 'Infomaterial anfordern' 'Rückruf'\n")
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
 
     # Submit the Form
     element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]')

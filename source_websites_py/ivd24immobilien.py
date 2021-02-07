@@ -34,7 +34,11 @@ def _ivd24immobilien(input_List):
     Obj_ivd24immobilien.fill_TextBox('//*[@id="search-form"]/div/div[6]/input', input_List['SurfaceArea'])
   except:
     print('\n-----> Complete the form manually to finish\n')
-    time.sleep(10)
+    print("After finishing, press a key to continue\n")
+    while True:
+      a = input("\n-----> press any key to continue")
+      if a != []:
+        break
   #Obj_ivd24immobilien.fill_TextBox('//*[@id="photon_ortschaft"]', input_List['SearchLocation'].split('/')[1])
   #webbrowser.find_element_by_xpath('//*[@id="ui-id-1"]').click()
   
@@ -55,5 +59,5 @@ def _ivd24immobilien(input_List):
     time.sleep(2)      
 
 
-  time.sleep(10)
+  time.sleep(10)  #????????
   return True

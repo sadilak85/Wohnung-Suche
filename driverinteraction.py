@@ -106,7 +106,7 @@ class ImmobilienSuche:
       try:
         return 'clicked'
       except:
-        print(".................\nButton for 'Contact' can not be clicked, it is being obscured by something")
+        print(".................\nButton can not be clicked, it is being obscured by something")
         print("Waiting to remove this obstacle\n")
         while True:
           a = input("Do you want to skip this process? (Yes/No)")
@@ -128,6 +128,7 @@ class ImmobilienSuche:
     textbox = self.driver.find_element_by_xpath(_pathstring)
     textbox.clear()
     textbox.send_keys(_str)
+    return textbox
 
 def ProgressBar():
   toolbar_width = 50

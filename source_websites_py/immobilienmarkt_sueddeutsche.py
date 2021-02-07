@@ -50,16 +50,24 @@ def _immobilienmarkt_sueddeutsche(input_List):
       Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
       Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
     except:
-      print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print(".................\nOne of the form elements is missing")
+      print("If some of form elements are available, please manually fill in and then press any key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     #click radio buttons
     try:
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
     except:
-      print("\n-----> click the check boxes in the form manually!\n")
-      time.sleep(10)
+      print(".................\nClick the check boxes in the form manually!")
+      print("After clicking is finished or if no form is available, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     # Submit the Form
     element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]')
     cont = Obj_sueddeutsche_ch.continue2click_element(element2click)

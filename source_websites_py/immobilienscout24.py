@@ -59,9 +59,12 @@ def _immobilienscout24(input_List):
     try:
       Select(element2click).select_by_visible_text(input_List['Salutation'])
     except:
-      print('\n-----> Select manually the title: Herr/Frau\n')
-      time.sleep(10)      
-      pass
+      print("----->\nSelect manually the title: Herr/Frau")
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     try:
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-Message"]', input_List['Message'])
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-firstName"]', input_List['Firstname'])
@@ -70,7 +73,11 @@ def _immobilienscout24(input_List):
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-phoneNumber"]', input_List['Telephone'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break      
     # some extra information on some objects extra given
     try: 
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-street"]', input_List['Street'])
@@ -79,11 +86,15 @@ def _immobilienscout24(input_List):
       Obj_immobilienscout24_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
     except:
       print('\n-----> Complete the form manually to finish\n')
-      time.sleep(10)
+      print("After finishing, press a key to continue\n")
+      while True:
+        a = input("\n-----> press any key to continue")
+        if a != []:
+          break
     # 
     # Submit Form 
     #
-    time.sleep(3)
+    time.sleep(1)
     # Check if "Anfrage Senden" button exists:
     element2click = Obj_immobilienscout24_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
     cont = Obj_immobilienscout24_ch.continue2click_element(element2click)
@@ -107,9 +118,12 @@ def _immobilienscout24(input_List):
         time.sleep(4)
         element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
         while element2click != []:
-          time.sleep(5)
-          print("\nFinish filling this optional page and click 'Anfrage Senden' button! \n")
-          time.sleep(5)
+          print("\n----->Finish filling this optional page and click 'Anfrage Senden' button!\n")
+          print("After finishing, press a key to continue\n")
+          while True:
+            a = input("\n-----> press any key to continue")
+            if a != []:
+              break
           element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
     else:
     #  element2click.click()  ###################  Burayi en son comment out yap !! ##################
