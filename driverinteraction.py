@@ -25,7 +25,6 @@ class ImmobilienSuche:
     self.cookiesfilename = "Cookies/Cookiesfor_{a}_{b}.pkl".format(a=self.browsertype, b=self.sourceweb)
     self.chromeprofilepath = input_List['ChromeUserProfilePath']
     self.driver = []    # creates a webdriver
-    self.element = []   # elements in html
 
   def launchdriver(self, _url2open):
     chrome_options = webdriver.ChromeOptions()
@@ -55,7 +54,7 @@ class ImmobilienSuche:
       print('\nwaiting from user to get rid of Captcha manually to continue\n')
       while 'Robot' in self.driver.title:
         time.sleep(3)
-      ProgressBar()
+      print('process will continue..\n')
     #     
     return self.driver
 
@@ -77,29 +76,42 @@ class ImmobilienSuche:
       if lastCount==lenOfPage:
         match=True
 
-  def check2click_element (self, _pathstring):
+  def check2click_element (self, _pathstring, _time, _options = ['visible','present','clickable']):
+    if _options[0] == 'visible':
+      try:
+        _element = WebDriverWait(self.driver, _time).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
+        print('visibility of element located achieved')
+        return _element
+      except TimeoutException:
+        print ("Loading took too much time for visibility of element located!")
+        _element =[]
+    if _options[1] == 'present':
+      try:
+        _element = WebDriverWait(self.driver, _time).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
+        print('presence of element located achieved')
+        return _element
+      except TimeoutException:
+        print ("Loading took too much time for presence of element located!")
+        _element =[]
+    if _options[2] == 'clickable':
+      try:         
+        _element = WebDriverWait(self.driver, _time).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
+        print('presence of element to be clickable achieved')
+        return _element
+      except TimeoutException:
+        print ("Loading took too much time for element clickable!")
+        _element =[]  
+    return _element
+
+  def check2click_elements_list (self, _pathstring, _time):
     try:
-      self.element = WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located((By.XPATH, _pathstring)))
-      print('visibility of element located achieved')
-      return self.element
+      _element = WebDriverWait(self.driver, _time).until(EC.visibility_of_all_elements_located((By.XPATH, _pathstring)))
+      print('visibility of all elements located achieved')
+      return _element
     except TimeoutException:
-      print ("Loading took too much time for visibility of element located!")
-      self.element =[]
-    try:
-      self.element = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.XPATH, _pathstring)))
-      print('presence of element located achieved')
-      return self.element
-    except TimeoutException:
-      print ("Loading took too much time for presence of element located!")
-      self.element =[]
-    try:         
-      self.element = WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable((By.XPATH, _pathstring)))
-      print('presence of element to be clickable achieved')
-      return self.element
-    except TimeoutException:
-      print ("Loading took too much time for element clickable!")
-      self.element =[]        
-    return self.element
+      print ("Loading took too much time for visibility of all elements located!")
+      _element =[]     
+    return _element
 
   def continue2click_element(self, _element2click):
     while _element2click != []:
@@ -121,7 +133,7 @@ class ImmobilienSuche:
           print(".................\nPlease click 'OK' or 'Zulassen' in case of 'Privacy Settings' or 'Wir benötigen Ihre Zustimmung' ")
           print("\nAfter finishing press a key to continue\n")
           while True:
-            a = input("\n-----> press any key to continue")
+            a = input("\n-----> Press Enter to continue\n")
             if a != []:
               break
           continue

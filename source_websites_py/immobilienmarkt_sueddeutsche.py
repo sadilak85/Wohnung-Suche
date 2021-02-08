@@ -1,4 +1,4 @@
-from driverinteraction import ImmobilienSuche
+from driverinteraction import *
 import functions_sourcewebsite
 import webscrape
 #
@@ -25,14 +25,15 @@ def _immobilienmarkt_sueddeutsche(input_List):
   Obj_sueddeutsche = ImmobilienSuche(input_List)
   webbrowser = Obj_sueddeutsche.launchdriver(url2open)
   #
-  filenamekeystr = 'Immobilienmarkt_sueddeutsche_'
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded_sueddeutsche(webbrowser, filenamekeystr)
+  filenamekeystr = 'immobilienmarkt_sueddeutsche_'
+  _url2open, object_ID_list = functions_sourcewebsite.extract_object_url_ID_sueddeutsche(webbrowser, filenamekeystr)
   #
   webbrowser.close()
   #
+  totalobj2process = 0
   # Open the objects found after search
   for i in range(len(_url2open)):
-    if i == int(input_List['MaxObj2Search']):
+    if totalobj2process == int(input_List['MaxObj2Search']):
       print('max number of objects to search is achieved')
       break
     Obj_sueddeutsche_ch = ImmobilienSuche(input_List)
@@ -50,32 +51,42 @@ def _immobilienmarkt_sueddeutsche(input_List):
       Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRphone"]', input_List['Telephone'])
       Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRSenderZusatz"]', input_List['Message'])
     except:
-      print(".................\nOne of the form elements is missing")
-      print("If some of form elements are available, please manually fill in and then press any key to continue\n")
-      while True:
-        a = input("\n-----> press any key to continue")
-        if a != []:
-          break
+      pass
+    try:
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRstreet"]', input_List['Street'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRhouseno"]', input_List['Housenumber'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRzipCode"]', input_List['PostalCode'])
+      Obj_sueddeutsche_ch.fill_TextBox('//*[@id="idDRcity"]', input_List['City'])
+    except:
+      pass        
     #click radio buttons
     try:
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderInfo"]').click()
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderTermin"]').click()
       webbrowser2focus.find_element_by_xpath('//*[@id="idDRSenderCall"]').click()
     except:
-      print(".................\nClick the check boxes in the form manually!")
-      print("\nAfter clicking is finished or if no form is available, press a key to continue\n")
-      while True:
-        a = input("\n-----> press any key to continue")
-        if a != []:
-          break
+      pass
     # Submit the Form
-    element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]')
+    element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]', 3)
     cont = Obj_sueddeutsche_ch.continue2click_element(element2click)
     if cont =='clicked':
       print(element2click)
       # element2click.click()   ###################  Burayi en son comment out yap !! ##################
-      time.sleep(2)
+      time.sleep(5)
+      element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="directReqShort"]') # if any error by sending
+      while element2click != []:
+        print("\n----->Finish filling the page and click send button!\n")
+        print("\nAfter finishing, press a key to continue\n")
+        while True:
+          a = input("\n-----> Press Enter to continue\n")
+          if a != []:
+            break
+        element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="directReqShort"]')
+        if  element2click == []: # submitted manually
+          print("\nSubmitted manually and will save a log file as usual\n")
+          pass
       print('......................\n Message is successfully sent;)! \n......................')
+      totalobj2process = totalobj2process + 1
     else:
       webbrowser2focus.close()
       time.sleep(2)      

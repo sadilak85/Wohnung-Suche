@@ -137,6 +137,16 @@ def gather_log_info_immowelt(_url2scrape, filepath):
     outfile.write('\n')
   return True 
 
+def gather_log_info_ivd24immobilien(webbrowser, filepath):
+  with open(filepath, mode='w') as outfile:
+    outfile.write('\n')
+    try:
+      outfile.write(webbrowser.find_element_by_xpath('//*[@id="expose"]').text)
+    except:
+      pass
+
+    outfile.write('\n\n')
+  return True
 
 def gather_log_info_immobilienmarkt_sueddeutsche(_url2scrape, filepath):
   htmlContent = requests.get(_url2scrape)

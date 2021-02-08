@@ -1,4 +1,4 @@
-from driverinteraction import ImmobilienSuche
+from driverinteraction import *
 import functions_sourcewebsite
 import webscrape
 #
@@ -22,21 +22,22 @@ def _immowelt(input_List):
   Obj_immowelt.scroll_down()
   #
   #
-  filenamekeystr = 'Immowelt_'
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr,'expose')
+  filenamekeystr = 'immowelt_'
+  _url2open, object_ID_list = functions_sourcewebsite.extract_object_url_ID(webbrowser, filenamekeystr,'expose')
 
   webbrowser.close()
   #
+  totalobj2process = 0
   # Open the objects found after search
   for i in range(len(_url2open)):
-    if i == int(input_List['MaxObj2Search']):
+    if totalobj2process == int(input_List['MaxObj2Search']):
       print('max number of objects to search is achieved')
       break
     Obj_immowelt_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immowelt_ch.launchdriver(_url2open[i])
     #
     # Click on the "Contact to" button
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]')
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactBroker"]', 3)
     cont = Obj_immowelt_ch.continue2click_element(element2click)
     if cont =='clicked':
       element2click.click()
@@ -47,7 +48,7 @@ def _immowelt(input_List):
       continue
 
     # Filling the form
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]')
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="salutation"]', 3)
     cont = Obj_immowelt_ch.continue2click_element(element2click)
     if cont =='clicked':
       element2click.click()
@@ -62,7 +63,7 @@ def _immowelt(input_List):
       print('\n-----> Select manually the title: Herr/Frau\n')
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n")
         if a != []:
           break
     try:
@@ -75,17 +76,23 @@ def _immowelt(input_List):
       print('\n-----> Complete the form manually to finish\n')
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n")
         if a != []:
-          break      
+          break
+    try:
+      Obj_immowelt_ch.fill_TextBox('//*[@id="street"]', input_List['Street']+' '+input_List['Housenumber'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="zipcode"]', input_List['PostalCode'])
+      Obj_immowelt_ch.fill_TextBox('//*[@id="city"]', input_List['City'])
+    except:
+      pass
 
     # Click on the radioboxes under message box
     try:
-      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestMoreInformation"]')
+      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestMoreInformation"]', 3)
       Obj_immowelt_ch.continue2click_element(element2click)
       element2click.click()
       time.sleep(2)
-      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestCallback"]')
+      element2click = Obj_immowelt_ch.check2click_element('//*[@id="requestCallback"]', 3)
       Obj_immowelt_ch.continue2click_element(element2click)
       element2click.click()
       time.sleep(2)
@@ -93,17 +100,31 @@ def _immowelt(input_List):
       print("\n-----> click the check boxes: 'Infomaterial anfordern' 'Rückruf'\n")
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n")
         if a != []:
           break
 
     # Submit the Form
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]')
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 3)
     cont = Obj_immowelt_ch.continue2click_element(element2click)
     if cont =='clicked':
       # element2click.click()   ###################  Burayi en son comment out yap !! ##################
-      time.sleep(2)
+      time.sleep(5)
+      element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="btnContactSend"]')
+      while element2click != []:
+        print("\n----->Finish filling the page and click send button!\n")
+        print("\nAfter finishing, press a key to continue\n")
+        while True:
+          a = input("\n-----> Press Enter to continue\n")
+          if a != []:
+            break
+        element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="btnContactSend"]')
+        if  element2click == []: # submitted manually
+          print("Submitted manually and will save a log file as usual")
+          pass
+
       print('......................\n Message is successfully sent;)! \n......................')
+      totalobj2process = totalobj2process + 1
     else:
       webbrowser2focus.close()
       time.sleep(2)      
@@ -121,10 +142,6 @@ def _immowelt(input_List):
     print("\n-----------------------------------------------------------")   
   return True
 
-
-  #  _input.send_keys(Keys.ENTER)
-  #webbrowser.get('https://www.seleniumeasy.com/')
-  #assert 'Selenium Easy' in webbrowser.title
 
   # HTML from element with `get_attribute`
   #element = webbrowser.find_element_by_css_selector("#hireme")

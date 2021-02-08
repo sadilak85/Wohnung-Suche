@@ -1,4 +1,4 @@
-from driverinteraction import ImmobilienSuche
+from driverinteraction import *
 import functions_sourcewebsite
 import webscrape
 #
@@ -30,21 +30,22 @@ def _immonet(input_List):
   webbrowser = Obj_immonet.launchdriver(url2open)
   #
   filenamekeystr = 'immonet'
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'angebot')
+  _url2open, object_ID_list = functions_sourcewebsite.extract_object_url_ID(webbrowser, filenamekeystr, 'angebot')
   #Obj_immonet.save_cookies()
   webbrowser.close()
   #
+  totalobj2process = 0
   # Open the objects found after search
   for i in range(len(_url2open)):
-    if i == int(input_List['MaxObj2Search']):
+    if totalobj2process == int(input_List['MaxObj2Search']):
       print('max number of objects to search is achieved')
       break
     Obj_immonet_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_immonet_ch.launchdriver(_url2open[i])
 
-    # Scroll to contact formular and fill it: 
+    # Scroll to contact formular and fill it:
     ActionChains(webbrowser2focus).move_to_element(webbrowser2focus.find_element_by_xpath('//*[@id="sbc_submit"]')).perform()
-    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_salutation"]')
+    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_salutation"]', 3)
     cont = Obj_immonet_ch.continue2click_element(element2click)
     if cont =='clicked':
       ActionChains(webbrowser2focus).click(element2click).perform()
@@ -61,7 +62,7 @@ def _immonet(input_List):
       print('\n-----> Select manually the title: Herr/Frau\n')
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n")
         if a != []:
           break
     try:
@@ -71,33 +72,36 @@ def _immonet(input_List):
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_phone"]', input_List['Telephone'])
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_annotations"]', input_List['Message'])
     except:
-      print('\n-----> Complete the form manually to finish\n')
-      print("\nAfter finishing, press a key to continue\n")
-      while True:
-        a = input("\n-----> press any key to continue")
-        if a != []:
-          break
+      pass
     # some extra information on some objects extra given
     try: 
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_street"]', input_List['Street']+' '+input_List['Housenumber'])
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_zip"]', input_List['PostalCode'])
       Obj_immonet_ch.fill_TextBox('//*[@id="sbc_contact_city"]', input_List['City'])
     except:
-      print('\n-----> Complete the form manually to finish\n')
-      print("\nAfter finishing, press a key to continue\n")
-      while True:
-        a = input("\n-----> press any key to continue")
-        if a != []:
-          break
+      pass
     #
     # submit the Form:  
-    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]')
+    element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]', 3)
     cont = Obj_immonet_ch.continue2click_element(element2click)
     if cont =='clicked':
-      print(element2click)
       # element2click.click()   ###################  Burayi en son comment out yap !! ##################
-      time.sleep(2)
+      time.sleep(5)
+      # if any error by sending:
+      element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]', 1, [None,None,'clickable'])
+      while element2click != []:
+        print("\n----->Finish filling the page and click send button!\n")
+        print("\nAfter finishing, press a key to continue\n")
+        while True:
+          a = input("\n-----> Press Enter to continue\n...")
+          if a != []:
+            break
+        element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]', 1, [None,None,'clickable'])
+        if  element2click == []: # submitted manually
+          print("\nSubmitted manually and will save a log file as usual\n")
+          pass
       print('......................\n Message is successfully sent;)! \n......................')
+      totalobj2process = totalobj2process + 1
     else:
       webbrowser2focus.close()
       time.sleep(2)      

@@ -1,4 +1,4 @@
-from driverinteraction import ImmobilienSuche
+from driverinteraction import *
 import functions_sourcewebsite
 import webscrape
 #
@@ -36,13 +36,14 @@ def _null_provision(input_List):
   webbrowser = Obj_null_provision.launchdriver(url2open)
   #
   filenamekeystr = 'null_provision_'
-  _url2open, object_ID_list = functions_sourcewebsite.wait_objects_loaded(webbrowser, filenamekeystr, 'angebot')
+  _url2open, object_ID_list = functions_sourcewebsite.extract_object_url_ID(webbrowser, filenamekeystr, 'angebot')
   #
   webbrowser.close()
   #
+  totalobj2process = 0
   # Open the objects found after search
   for i in range(len(_url2open)):
-    if i == int(input_List['MaxObj2Search']):
+    if totalobj2process == int(input_List['MaxObj2Search']):
       print('max number of objects to search is achieved')
       break
     _url2open[i] = _url2open[i].replace('https://www.null-provision.de/angebot/','https://www.immobilienscout24.de/expose/')
@@ -52,7 +53,7 @@ def _null_provision(input_List):
     webbrowser2focus.execute_script("window.scrollTo(0, window.scrollY + 1500)")
     time.sleep(1)
     #
-    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]')
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-sticky-contact-area"]/div[1]/div/div[2]/a/span[1]', 3)
     cont = Obj_null_provision_ch.continue2click_element(element2click)
     if cont =='clicked':
       element2click.click()
@@ -63,7 +64,7 @@ def _null_provision(input_List):
       continue
 
     # Filling the form
-    element2click = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]')
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="contactForm-salutation"]', 3)
     cont = Obj_null_provision_ch.continue2click_element(element2click)
     if cont == 'clicked':
       element2click.click()
@@ -78,7 +79,7 @@ def _null_provision(input_List):
       print('\n-----> Select manually the title: Herr/Frau\n')
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n...")
         if a != []:
           break
     try:
@@ -91,7 +92,7 @@ def _null_provision(input_List):
       print('\n-----> Complete the form manually to finish\n')
       print("\nAfter finishing, press a key to continue\n")
       while True:
-        a = input("\n-----> press any key to continue")
+        a = input("\n-----> Press Enter to continue\n")
         if a != []:
           break
     # some extra information on some objects extra given
@@ -101,18 +102,13 @@ def _null_provision(input_List):
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-postcode"]', input_List['PostalCode'])
       Obj_null_provision_ch.fill_TextBox('//*[@id="contactForm-city"]', input_List['City'])
     except:
-      print('\n-----> Complete the form manually to finish\n')
-      print("\nAfter finishing, press a key to continue\n")
-      while True:
-        a = input("\n-----> press any key to continue")
-        if a != []:
-          break
+      pass
     # 
     # Submit Form 
     #
-    time.sleep(3)
+    time.sleep(1)
     # Check if "Anfrage Senden" button exists:
-    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span')
+    element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[6]/div/button/span', 3)
     cont = Obj_null_provision_ch.continue2click_element(element2click)
     if cont =='obscured':  
       webbrowser2focus.close()
@@ -121,7 +117,7 @@ def _null_provision(input_List):
     elif cont == 'ignore': #if no send button maybe check "Weiter" button
       print("trying to click on 'Weiter' button")
       # Check if "Weiter" button exists:
-      element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span')
+      element2click = Obj_null_provision_ch.check2click_element('//*[@id="is24-expose-modal"]/div/div/div/div/div/div[1]/div[2]/div/div/div/form/div/div/div[5]/div/button/span', 3)
       cont = Obj_null_provision_ch.continue2click_element(element2click)
       if cont =='obscured':
         continue
@@ -129,7 +125,7 @@ def _null_provision(input_List):
         webbrowser2focus.close()
         time.sleep(2)
         continue
-      else: # last page "Anfrage Senden" button, after manullay filling this page with extra optional questions
+      else: # last page with "Anfrage Senden" button, after manullay filling this page with extra optional questions, then continue..
         element2click.click()
         time.sleep(4)
         element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
@@ -137,15 +133,19 @@ def _null_provision(input_List):
           print("\n----->Finish filling this optional page and click 'Anfrage Senden' button!\n")
           print("\nAfter finishing, press a key to continue\n")
           while True:
-            a = input("\n-----> press any key to continue")
+            a = input("\n-----> Press Enter to continue\n")
             if a != []:
               break
           element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="is24-expose-modal"]/div/div/div/div/div[1]/div/div/div/form/div[5]/button')
+          if  element2click == []: # submitted manually
+            print("\nSubmitted manually and will save a log file as usual\n")
+            pass
     else:
       #element2click.click()  ###################  Burayi en son comment out yap !! ##################
       time.sleep(2)
 
     print('......................\n Message is successfully sent;)! \n......................')
+    totalobj2process = totalobj2process + 1
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
