@@ -153,7 +153,7 @@ def _ivd24immobilien(input_List):
   
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_ivd24immobilien(webbrowser2focus, filepath)
+    webscrape.gather_log_info_ivd24immobilien(webbrowser2focus,_url2open[i], filepath)
 
     webbrowser2focus.close()
   if _url2open == []:

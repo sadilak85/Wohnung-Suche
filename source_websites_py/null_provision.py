@@ -148,7 +148,7 @@ def _null_provision(input_List):
     totalobj2process = totalobj2process + 1
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
-    webscrape.gather_log_info_immobilienscout24(webbrowser2focus, filepath)
+    webscrape.gather_log_info_immobilienscout24(webbrowser2focus,_url2open[i], filepath)
     #    
     webbrowser2focus.close()
   if _url2open == []:

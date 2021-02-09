@@ -2,16 +2,26 @@ import requests
 from bs4 import BeautifulSoup
 import re
 #
-def gather_log_info_immobilienscout24(webbrowser, filepath):
+def gather_log_info_immobilienscout24(webbrowser,_url2scrape, filepath):
   with open(filepath, mode='w') as outfile:
-    outfile.write('\n')
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
     try:
       outfile.write(webbrowser.find_element_by_xpath('//*[@id="is24-content"]').text)
     except:
       pass
 
     outfile.write('\n\n')
-  
+  return True
+
+def gather_log_info_wohnungsboerse(webbrowser,_url2scrape, filepath):
+  with open(filepath, mode='w') as outfile:
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
+    try:
+      outfile.write(webbrowser.find_element_by_xpath('/html/body/div[6]/div[8]').text)
+    except:
+      pass
+
+    outfile.write('\n\n')
   return True
 
 def gather_log_info_immonet(_url2scrape, filepath):
@@ -19,7 +29,7 @@ def gather_log_info_immonet(_url2scrape, filepath):
   soup = BeautifulSoup(htmlContent.text, 'html.parser')
   #
   with open(filepath, mode='w') as outfile:
-    outfile.write('\n')
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
     try:
       maintitle = soup.find('h1', {'id': 'expose-headline'}).text
       outfile.write(re.sub("\s{4,}"," ",maintitle.strip()))
@@ -89,7 +99,7 @@ def gather_log_info_immowelt(_url2scrape, filepath):
   soup = BeautifulSoup(htmlContent.text, 'html.parser')
   #
   with open(filepath, mode='w') as outfile:
-    outfile.write('\n')
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
     try:
       outfile.write(soup.find('input', id='AnzeigenUeberschrift')['value'])
     except:
@@ -137,9 +147,9 @@ def gather_log_info_immowelt(_url2scrape, filepath):
     outfile.write('\n')
   return True 
 
-def gather_log_info_ivd24immobilien(webbrowser, filepath):
+def gather_log_info_ivd24immobilien(webbrowser,_url2scrape, filepath):
   with open(filepath, mode='w') as outfile:
-    outfile.write('\n')
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
     try:
       outfile.write(webbrowser.find_element_by_xpath('//*[@id="expose"]').text)
     except:
@@ -153,7 +163,7 @@ def gather_log_info_immobilienmarkt_sueddeutsche(_url2scrape, filepath):
   soup = BeautifulSoup(htmlContent.text, 'html.parser')
   #
   with open(filepath, mode='w') as outfile:
-    outfile.write('\n')
+    outfile.write("\nWebsource: "+_url2scrape+"\n")
     try:
       main1 = soup.find('div', class_='exposeMain').text
       outfile.write(re.sub("\s{4,}"," ",main1.strip()))

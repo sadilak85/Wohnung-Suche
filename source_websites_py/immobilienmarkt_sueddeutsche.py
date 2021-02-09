@@ -70,18 +70,18 @@ def _immobilienmarkt_sueddeutsche(input_List):
     element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]', 3)
     cont = Obj_sueddeutsche_ch.continue2click_element(element2click)
     if cont =='clicked':
-      print(element2click)
       # element2click.click()   ###################  Burayi en son comment out yap !! ##################
       time.sleep(5)
-      element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="directReqShort"]') # if any error by sending
+      # if any error by sending:
+      element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]', 1, [None,None,'clickable'])
       while element2click != []:
         print("\n----->Finish filling the page and click send button!\n")
         print("\nAfter finishing, press a key to continue\n")
         while True:
-          a = input("\n-----> Press Enter to continue\n")
+          a = input("\n-----> Press Enter to continue\n...")
           if a != []:
             break
-        element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="directReqShort"]')
+        element2click = Obj_sueddeutsche_ch.check2click_element('//*[@id="directReqShort"]', 1, [None,None,'clickable'])
         if  element2click == []: # submitted manually
           print("\nSubmitted manually and will save a log file as usual\n")
           pass

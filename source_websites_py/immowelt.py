@@ -104,25 +104,30 @@ def _immowelt(input_List):
         if a != []:
           break
 
-    # Submit the Form
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 3)
+    # Submit the Form 
+    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, ['visible',None,None])
+    element2click2 = Obj_immowelt_ch.check2click_element('//*[@id="btnStepForward"]', 1, ['visible',None,None])
     cont = Obj_immowelt_ch.continue2click_element(element2click)
-    if cont =='clicked':
-      # element2click.click()   ###################  Burayi en son comment out yap !! ##################
-      time.sleep(5)
-      element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="btnContactSend"]')
+    cont2 = Obj_immowelt_ch.continue2click_element(element2click2)
+    if cont =='clicked' or cont2 =='clicked':
+      if cont2 =='clicked':
+        element2click2.click() # Weiter Button click
+      else:
+        # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+        time.sleep(5)
+      # if any error by sending + After weiter button there is extra form manually to fill:
+      element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, [None,None,'clickable'])
       while element2click != []:
         print("\n----->Finish filling the page and click send button!\n")
         print("\nAfter finishing, press a key to continue\n")
         while True:
-          a = input("\n-----> Press Enter to continue\n")
+          a = input("\n-----> Press Enter to continue\n...")
           if a != []:
             break
-        element2click = webbrowser2focus.find_elements_by_xpath('//*[@id="btnContactSend"]')
+        element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, [None,None,'clickable'])
         if  element2click == []: # submitted manually
-          print("Submitted manually and will save a log file as usual")
+          print("\nSubmitted manually and will save a log file as usual\n")
           pass
-
       print('......................\n Message is successfully sent;)! \n......................')
       totalobj2process = totalobj2process + 1
     else:

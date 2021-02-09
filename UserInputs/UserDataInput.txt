@@ -20,7 +20,7 @@ PostalCode>> 	81373
 City>>  München
 
 ['Muenchen: [M]', 'Berlin: [B]', 'Hamburg: [H]', 'Koeln: [K]', 'Frankfurt: [F]', 'Stuttgart: [S]', 'Duesseldorf: [D]']
-SearchLocation>>   B
+SearchLocation>>   M
 
 [bis xx euro]
 Budget>>	1900
@@ -29,10 +29,10 @@ Budget>>	1900
 TotalRooms>>   3
 
 [ab x m2]
-SurfaceArea>>	80
+SurfaceArea>>	90
 
 [Give an upper limit on total objects to search and connect for each website]
-MaxObj2Search>> 3
+MaxObj2Search>> 1
 
 ['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']
 Browsertype>> C

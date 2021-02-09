@@ -5,6 +5,7 @@ import source_websites_py.immobilienmarkt_sueddeutsche
 import source_websites_py.ivd24immobilien
 import source_websites_py.null_provision
 import source_websites_py.immonet
+import source_websites_py.wohnungsboerse
 #
 import re
 import os
@@ -257,12 +258,12 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  #SourceWebSites_List = ['immowelt', 'immobilienscout24', 'null_provision', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet']
-  SourceWebSites_List = ['ivd24immobilien']
+  SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
+  #SourceWebSites_List = ['wohnungsboerse']
   #
   for i, _webstr in enumerate(SourceWebSites_List):
     input_List['Sourceweb'] = _webstr
-    print('......................\nInitializing for {}.de \n......................'.format(_webstr))
+    print('......................\nInitializing for {} \n......................'.format(_webstr))
     if eval("source_websites_py."+ "{s}._{s}".format(s=_webstr) + "(input_List)"):
       print("......................\nProcess for {} is finished.\n......................".format(_webstr))
     else:
