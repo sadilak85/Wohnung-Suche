@@ -78,4 +78,8 @@ Output folder --> log files are filled with information on the objects focused (
 
 Last Notes:
 
-It is still under construction and is buggy. Mostly Chrome driver is used to develop the tool. Recommended to use Chrome. Other browser options are only written in the code sections for future implementations.
+It is free to download and use. In case of any bugs, errors, please contact to the author:
+
+s_adilak@hotmail.com
+
+Mostly Chrome driver is used to develop the tool. Recommended to use Chrome. Other browser options are only set up in the code sections for future implementations.
