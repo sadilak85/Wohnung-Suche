@@ -25,6 +25,8 @@ https://www.wohnungsboerse.net/
 
 https://www.meinestadt.de/
 
+https://www.immosuchmaschine.de/
+
 ...
 
 User will specify choices in the input file , like number of rooms, his/her budget, personal information (Name, Address).
