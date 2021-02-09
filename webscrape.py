@@ -13,17 +13,6 @@ def gather_log_info_immobilienscout24(webbrowser,_url2scrape, filepath):
     outfile.write('\n\n')
   return True
 
-def gather_log_info_wohnungsboerse(webbrowser,_url2scrape, filepath):
-  with open(filepath, mode='w') as outfile:
-    outfile.write("\nWebsource: "+_url2scrape+"\n")
-    try:
-      outfile.write(webbrowser.find_element_by_xpath('/html/body/div[6]/div[8]').text)
-    except:
-      pass
-
-    outfile.write('\n\n')
-  return True
-
 def gather_log_info_immonet(_url2scrape, filepath):
   htmlContent = requests.get(_url2scrape)
   soup = BeautifulSoup(htmlContent.text, 'html.parser')

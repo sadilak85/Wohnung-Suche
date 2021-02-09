@@ -23,7 +23,7 @@ City>>  München
 SearchLocation>>   M
 
 [bis xx euro]
-Budget>>	1900
+Budget>>	1200
 
 [ab x Zimmer]
 TotalRooms>>   2

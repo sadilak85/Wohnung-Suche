@@ -64,18 +64,15 @@ def _wohnungsboerse(input_List):
       break
     Obj_wohnungsboerse_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_wohnungsboerse_ch.launchdriver(_url2open[i])
-
-    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[1]').text)
-    print('\n')
-    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[5]').text)
-    print('\n')
-    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[11]/div[1]').text)
-    print('\n')
-    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[13]/div[1]/div[4]').text)
-    
-    
-    
-
+    try:
+      print(webbrowser2focus.title)
+      logfilestr = '\n'
+      logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[1]').text + '\n'
+      logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[5]').text + '\n'
+      logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[11]/div[1]').text + '\n'
+      logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[13]/div[1]/div[4]').text + '\n'
+    except:
+      print("\nsome information could not be written to log file\n")
     #
     # Click on the "Contact to" button 
     #
@@ -163,7 +160,7 @@ def _wohnungsboerse(input_List):
       _next_btn_xpath = '//*[@id="btnStepForward"]'
     else:
       try:
-        print(webbrowser2focus.find_element_by_xpath('//*[@id="contact-form"]').text)
+        logfilestr = logfilestr +'\n'+webbrowser2focus.find_element_by_xpath('//*[@id="contact-form"]/div/div[1]').text
       except:
         pass  
       try:
@@ -183,10 +180,10 @@ def _wohnungsboerse(input_List):
         Obj_wohnungsboerse_ch.continue2click_element(element2click)
         element2click.click()
         time.sleep(2)
-        element2click = Obj_wohnungsboerse_ch.check2click_element('//*[@id="recaptcha-anchor"]', 3)
-        Obj_wohnungsboerse_ch.continue2click_element(element2click)
-        element2click.click()
-        time.sleep(2)
+       # element2click = Obj_wohnungsboerse_ch.check2click_element('//*[@id="recaptcha-anchor"]/div[1]', 3)
+       # Obj_wohnungsboerse_ch.continue2click_element(element2click)
+       # element2click.click()
+       # time.sleep(2)
       except:
         print('\n-----> Complete the form manually to finish\n')
         print("\nAfter finishing, press a key to continue\n")
@@ -230,10 +227,9 @@ def _wohnungsboerse(input_List):
       continue
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
-    if checkimmowelt == True:
-      webscrape.gather_log_info_immowelt(_url2open[i], filepath)
-    else:
-      webscrape.gather_log_info_wohnungsboerse(webbrowser2focus, _url2open[i], filepath)
+    with open(filepath, mode='w') as outfile:
+      outfile.write("\nWebsource: "+_url2open[i]+"\n")
+      outfile.write(logfilestr)
 
     webbrowser2focus.quit()
   if _url2open == []:
