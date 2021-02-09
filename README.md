@@ -29,7 +29,6 @@ https://www.meinestadt.de/
 
 User will specify choices in the input file , like number of rooms, his/her budget, personal information (Name, Address).
 
-(Note: Not all of those websites are implemented in the tool yet. need more time individually due to each different html sources)
 
 Tool is based on python language, essentially a python package "selenium" which automatically searches objects in websites given above with user defined properties (location, price, room numbers, etc.) and fills the forms then sends messages defined by the user as a template before.
 
