@@ -64,6 +64,18 @@ def _wohnungsboerse(input_List):
       break
     Obj_wohnungsboerse_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_wohnungsboerse_ch.launchdriver(_url2open[i])
+
+    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[1]').text)
+    print('\n')
+    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[5]').text)
+    print('\n')
+    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[11]/div[1]').text)
+    print('\n')
+    print(webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[13]/div[1]/div[4]').text)
+    
+    
+    
+
     #
     # Click on the "Contact to" button 
     #

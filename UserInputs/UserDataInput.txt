@@ -26,13 +26,13 @@ SearchLocation>>   M
 Budget>>	1900
 
 [ab x Zimmer]
-TotalRooms>>   3
+TotalRooms>>   2
 
 [ab x m2]
-SurfaceArea>>	90
+SurfaceArea>>	40
 
 [Give an upper limit on total objects to search and connect for each website]
-MaxObj2Search>> 1
+MaxObj2Search>> 3
 
 ['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']
 Browsertype>> C
