@@ -1,7 +1,9 @@
 🆆🅾🅷🅽🆄🅽🅶 🆂🆄🅲🅷🅴
 
+Welcome to Wohnung Suche tool!
 
-A tool to provide available rental apartments specified by user's choices prior to following websites:
+
+This python selenium based tool provides available rental apartments on the following websites:
 
 https://www.immobilienscout24.de/
 
@@ -13,7 +15,19 @@ https://www.immonet.de/
 
 https://www.ivd24immobilien.de/
 
+https://www.null-provision.de/
+
+https://www.wohnungsboerse.net/
+
+... 
+
+(below ones are not implemented yet:)
+
+https://www.meinestadt.de/
+
 ...
+
+User will specify choices in the input file , like number of rooms, his/her budget, personal information (Name, Address).
 
 (Note: Not all of those websites are implemented in the tool yet. need more time individually due to each different html sources)
 
