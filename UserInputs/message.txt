@@ -1,13 +1,14 @@
 Guten Tag,
 
-mein Name ist Milan und ich interessiere mich sehr für die ausgeschriebene {objecttitle}. Ich bin 35 Jahre alt, Nichtraucher und studierter Sozialpädagoge. Nach fünf Jahren in Stuttgart trete ich zum 1. April eine unbefristete Vollzeitstelle in der Jugend- und Familienhilfe in Nippes an - die Lage der Wohnung ist daher perfekt für mich. Gerne lege ich Ihnen meinen neuen Arbeitsvertrag und eine positive SCHUFA-Auskunft vor. Falls Sie noch weitere Dokumente benötigen, lassen Sie es mich bitte wissen.
+mein Name ist Milan und ich interessiere mich sehr für die ausgeschriebene {objecttitle} (source: {objecturl}). Ich bin 35 Jahre alt, Nichtraucher und studierter Sozialpädagoge. Nach fünf Jahren in Stuttgart trete ich zum 1. April eine unbefristete Vollzeitstelle in der Jugend- und Familienhilfe in Nippes an - die Lage der Wohnung ist daher perfekt für mich. Gerne lege ich Ihnen meinen neuen Arbeitsvertrag und eine positive SCHUFA-Auskunft vor. Falls Sie noch weitere Dokumente benötigen, lassen Sie es mich bitte wissen.
 
-Ich bin verantwortungsbewusst und verlässlich. In meinen bisherigen zwei Wohnungen habe ich jeweils mindestens fünf Jahre gelebt und dort kleinere Reparatur- und Instandhaltungsarbeiten selbst durchgeführt. Gerne mache ich das auch in der neuen Wohnung. In meinem letzten Zuhause in Stuttgart hatte ich einen Holzboden, wie er auf den Bildern zu sehen ist. Mit der speziellen Pflege habe ich also schon Erfahrung.
+Ich bin verantwortungsbewusst und verlässlich. In meinen bisherigen zwei Wohnungen habe ich jeweils mindestens fünf Jahre gelebt und dort kleinere Reparatur- und Instandhaltungsarbeiten selbst durchgeführt. Gerne mache ich das auch in der neuen Wohnung. 
 
 Falls Sie noch Fragen zu mir haben, erreichen Sie mich unter der Nummer  xxxxx am besten zwischen 17 und 21 Uhr oder per E-Mail. Ich bin momentan schon in Köln und kann sehr spontan täglich ab 16 Uhr zu einer Besichtigung vorbeikommen. Weitere Informationen über mich können Sie meinem Xing-Profil entnehmen: https://www.xing.com/profile/xxx_xxx
 
-Ich wünsche Ihnen einen schönen Tag und freue mich sehr, wenn ich die Chance auf eine Besichtigung bekomme. Vielen Dank für Ihre Zeit, {salutationAndTitle} {firstName}.
+Ich wünsche Ihnen einen schönen Tag und freue mich sehr, wenn ich die Chance auf eine Besichtigung bekomme. 
 
-Viele Grüße
+Vielen Dank für Ihre Zeit,
 
+Viele Grüße,
 Milan Kovac
