@@ -54,10 +54,12 @@ How to download a Google Driver for Selenium:
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/WebDriverChromeDownload.png" width="60%">
 
+----------------------
 
-You will fill in the file first to run the tool efficiently and without any possible errors. 
+After having your Selenium driver, you can download now the entire repo to your local machine. 
 
-So first you will fill in the file called "UserDataInput.txt" in the working directory.
+
+You will fill in the file called "UserDataInput.txt" in the working directory.
 
 https://github.com/sadilak85/Wohnung-Suche/blob/main/UserDataInput.txt
 
