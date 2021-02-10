@@ -65,7 +65,7 @@ def _wohnungsboerse(input_List):
     Obj_wohnungsboerse_ch = ImmobilienSuche(input_List)
     webbrowser2focus = Obj_wohnungsboerse_ch.launchdriver(_url2open[i])
     try:
-      print(webbrowser2focus.title)
+      objectitle = webbrowser2focus.title
       logfilestr = '\n'
       logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[1]').text + '\n'
       logfilestr = logfilestr + webbrowser2focus.find_element_by_xpath('/html/body/div[6]/div[8]/div[10]/div[5]').text + '\n'
@@ -228,6 +228,7 @@ def _wohnungsboerse(input_List):
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     with open(filepath, mode='w') as outfile:
+      outfile.write("\nObject Title: "+objectitle+"\n")
       outfile.write("\nWebsource: "+_url2open[i]+"\n")
       outfile.write(logfilestr)
 

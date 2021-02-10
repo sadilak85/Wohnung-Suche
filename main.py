@@ -6,10 +6,12 @@ import source_websites_py.ivd24immobilien
 import source_websites_py.null_provision
 import source_websites_py.immonet
 import source_websites_py.wohnungsboerse
+import email_writer
 #
 import re
 import os
 import os.path
+from os import walk
 import time
 import shutil
 import pathlib
@@ -31,8 +33,10 @@ TITLE = '''
 # Paths:
 currentdir = os.path.dirname(os.path.realpath(__file__))
 UserDataInput = Path(currentdir) / 'UserInputs' / 'UserDataInput.txt'
+MessageFileTemplate = Path(currentdir) / 'UserInputs' / 'MessageTemplate.txt'
 MessageFile = Path(currentdir) / 'UserInputs' / 'message.txt'
 PostalCodeFile = Path(currentdir) / 'UserInputs' / 'PostalCodesDE.txt'
+emailtemplate = Path(currentdir) / 'UserInputs' / 'EmailTemplate.html'
 
 outdir = Path(currentdir) / "Output"
 if not os.path.exists(outdir):
@@ -93,14 +97,6 @@ def main():
   print('-------------------------------------------------')
   print(TITLE)
   print('-------------------------------------------------')
-  #
-  # Message file check!!!
-  try:
-    filename = open(MessageFile, "r")
-    input_List['Message'] = filename.read()
-    filename.close()
-  except:
-    print("Input file error: Check if file named 'UserDataInput.txt' available in ./UserInputs folder")
   #
   #
   with open(UserDataInput, mode='r', encoding="utf-8") as infile:
@@ -258,8 +254,28 @@ def main():
   else:
     print('Default City <Muenchen> is selected!')
   #
-  #SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
-  SourceWebSites_List = ['wohnungsboerse']
+  # Message file check!!!
+  try:
+    _old_str = ('$myname','$mynumber','$myfullname')
+    _new_str = (str(input_List['Firstname']),
+                str(input_List['Telephone']),
+                str(input_List['Firstname']+' '+input_List['Lastname']) 
+    )
+    open(MessageFile, 'w').close()
+    with open(MessageFileTemplate, "r", encoding="utf-8") as fin:
+      with open(MessageFile, "w", encoding="utf-8") as fout:
+        for line in fin:
+          for check, rep in zip(_old_str, _new_str):
+            line = line.replace(check, rep)
+          fout.write(line) 
+    msgfile = open(MessageFile, "r", encoding="utf-8")
+    input_List['Message'] = msgfile.read()
+  except:
+    print("Input file error: Check if a message file available in ./UserInputs folder")
+  
+  #
+  #
+  SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
   #
   for i, _webstr in enumerate(SourceWebSites_List):
     input_List['Sourceweb'] = _webstr
@@ -268,7 +284,31 @@ def main():
       print("......................\nProcess for {} is finished.\n......................".format(_webstr))
     else:
       print("......................\n Process for {} ended with some errors!\n......................".format(_webstr))
-      #quit()
+  #
+  email_writer.searchEmails(outdirsession)
+  
+  print("\nCheck the log files Output folder to see info as reference on the objects whom you contacted with\n")
+  print("\nLog files are in a subdirectory with relevant 'date-time' name inside the Output folder.\n")
+  print("\nThere are extra files in 'ExtractedEmails' directory including Email addresses with their source web links. \nCheck if they are worth to set up an email contact process\n")
+  print("\nIf the email addresses are ok, then leave them in the file, else erase the one that are irrelevant!\n")
+  print("\nWhenever you are ready, then save this file without renaming it! Then click enter to continue to invoke 'Email sender'\n")
+
+  while True:
+    a = input("\nAfter you are ready -----> Press Enter to continue\n...")
+    if a != []:
+      break
+  
+  _emails = email_writer.getInfofromFile(outdirsession)
+
+  if _emails['emails'] == []:
+    print("There are no email addresses to proceed.")
+  else:
+    # Email sender
+    for i in range(len(_emails['emails'])):
+      for _email in _emails['emails'][i]:
+        email_writer.write_Email(emailtemplate, input_List,
+                                                _email, 
+                                                _emails['titles'][i])
 #
 if __name__ == '__main__':
     main()
