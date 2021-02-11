@@ -76,7 +76,10 @@ How to set User Profile for Chrome:
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeUserProfile.png" width="60%">
 
-Output folder --> log files are filled with information on the objects focused (the ones that you will find and send messages) with web scraping packages of python. 
+Output folder --> log files, with information on the objects focused (the ones that you will find and send messages) with web scraping packages of python. 
+
+Output folder --> sub directory: ExtractedEmails  --> Possible email addresses on the object urls, program will ask you in the end to check the email addresses in the files in this sub-directory, to validate them in order to send extra emails automatically with a personalized, good looking way. You can validate those emails via the url provided in the files. If you think that some/all emails are not valid, only delete those emails from the files without deleting other things. 
+
 
 Last Notes:
 
