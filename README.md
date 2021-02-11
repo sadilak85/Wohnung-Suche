@@ -113,7 +113,7 @@ For **email_writer.py** (to write automatic email at the end) to function proper
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/LessSecureAppEnable.png" width="60%">
 
-
+Don't forget to add your email password into the file **emailpassword.txt** Program will contact smtp server through your email and password similarly as you manually type in browser and login. That is why you must enter your password into this file in the working directory. 
 
 Good luck with your "Wohnung" search!
 
