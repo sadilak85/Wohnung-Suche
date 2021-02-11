@@ -156,7 +156,7 @@ def _wohnungsboerse(input_List):
           a = input("\n-----> Press Enter to continue\n")
           if a != []:
             break
-      _submit_btn_xpath = '//*[@id="btnContactSend"]'
+      _submit_btn_xpath = "//*[contains(text(), 'Kontaktanfrage senden')]"
       _next_btn_xpath = '//*[@id="btnStepForward"]'
     else:
       try:

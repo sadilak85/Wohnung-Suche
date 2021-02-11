@@ -32,7 +32,7 @@ TotalRooms>>   3
 SurfaceArea>>	80
 
 [Give an upper limit on total objects to search and connect for each website]
-MaxObj2Search>> 1
+MaxObj2Search>> 15
 
 ['Chrome: [C]', 'Firefox: [F]', 'Ie: [I]']
 Browsertype>> C

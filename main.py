@@ -275,7 +275,8 @@ def main():
   
   #
   #
-  SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
+  #SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
+  SourceWebSites_List = ['wohnungsboerse']
   #
   for i, _webstr in enumerate(SourceWebSites_List):
     input_List['Sourceweb'] = _webstr
@@ -287,11 +288,11 @@ def main():
   #
   email_writer.searchEmails(outdirsession)
   
-  print("\nCheck the log files Output folder to see info as reference on the objects whom you contacted with\n")
-  print("\nLog files are in a subdirectory with relevant 'date-time' name inside the Output folder.\n")
-  print("\nThere are extra files in 'ExtractedEmails' directory including Email addresses with their source web links. \nCheck if they are worth to set up an email contact process\n")
-  print("\nIf the email addresses are ok, then leave them in the file, else erase the one that are irrelevant!\n")
-  print("\nWhenever you are ready, then save this file without renaming it! Then click enter to continue to invoke 'Email sender'\n")
+  print("\nCheck the log files in 'Output' folder to see info as reference on the objects you contacted")
+  print("\nLog files are in a subdirectory with 'date-time' name in 'Output' folder.")
+  print("\nThere are extra files in 'ExtractedEmails' directory. \nCheck if they are worth to set up an email connection now!")
+  print("\nIf the email addresses are ok, then leave them in the file, else erase the one that are irrelevant!")
+  print("\nWhenever you are ready, then save this file without renaming it! Then click enter to continue to invoke 'Email sender'")
 
   while True:
     a = input("\nAfter you are ready -----> Press Enter to continue\n...")

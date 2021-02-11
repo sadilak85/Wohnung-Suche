@@ -105,7 +105,7 @@ def _immowelt(input_List):
           break
 
     # Submit the Form 
-    element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, ['visible',None,None])
+    element2click = Obj_immowelt_ch.check2click_element("//*[contains(text(), 'Kontaktanfrage senden')]", 1, ['visible',None,None]) 
     element2click2 = Obj_immowelt_ch.check2click_element('//*[@id="btnStepForward"]', 1, ['visible',None,None])
     cont = Obj_immowelt_ch.continue2click_element(element2click)
     cont2 = Obj_immowelt_ch.continue2click_element(element2click2)
@@ -113,10 +113,10 @@ def _immowelt(input_List):
       if cont2 =='clicked':
         element2click2.click() # Weiter Button click
       else:
-        # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+        element2click.click()
         time.sleep(5)
       # if any error by sending + After weiter button there is extra form manually to fill:
-      element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, [None,None,'clickable'])
+      element2click = Obj_immowelt_ch.check2click_element("//*[contains(text(), 'Kontaktanfrage senden')]", 1, [None,None,'clickable'])
       while element2click != []:
         print("\n----->Finish filling the page and click send button!\n")
         print("\nAfter finishing, press a key to continue\n")
@@ -124,7 +124,7 @@ def _immowelt(input_List):
           a = input("\n-----> Press Enter to continue\n...")
           if a != []:
             break
-        element2click = Obj_immowelt_ch.check2click_element('//*[@id="btnContactSend"]', 1, [None,None,'clickable'])
+        element2click = Obj_immowelt_ch.check2click_element("//*[contains(text(), 'Kontaktanfrage senden')]", 1, [None,None,'clickable'])
         if  element2click == []: # submitted manually
           print("\nSubmitted manually and will save a log file as usual\n")
           pass
