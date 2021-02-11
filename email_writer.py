@@ -92,7 +92,18 @@ def write_Email(_emailtemplate, input_List, _adress, _title):
   try:
     email.set_content(html.safe_substitute(_substr), 'html')
   except:
-    print("\nSomething went wrong with email writer!\n")
+    print("\nSomething went wrong with email template string substitution!\n")
+    print("\nSolution: Manually substitute any of the following into 'EmailTemplate.html':")
+    print("\nYour name into $myname")
+    print("\nYour name and surname into $myfullname")
+    print("\nYour telephone into $mynumber")
+    print("\nYour Angebot title into $objecttitle")
+    print("\nOr even you can type whatever you want in the text area inside html template and hit enter")
+    while True:
+      a = input("\nAfter you are ready -----> Press Enter to continue\n...")
+      if a != []:
+        break
+
 
   # 'smtp.gmail.com' for google
   # 'smtp.live.com' for hotmail
