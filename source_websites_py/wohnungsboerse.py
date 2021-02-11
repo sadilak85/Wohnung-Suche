@@ -228,8 +228,8 @@ def _wohnungsboerse(input_List):
     # extract the page info into log file
     filepath = os.path.join(input_List['Outputdirectory'], 'Info_'+filenamekeystr+object_ID_list[i]+'.log')
     with open(filepath, mode='w') as outfile:
-      outfile.write("\nObject Title: "+objectitle+"\n")
-      outfile.write("\nWebsource: "+_url2open[i]+"\n")
+      outfile.write(_url2open[i]+"\n")
+      outfile.write("\n"+objectitle+"\n")
       outfile.write(logfilestr)
 
     webbrowser2focus.quit()
