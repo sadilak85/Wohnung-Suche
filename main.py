@@ -35,7 +35,7 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 UserDataInput = Path(currentdir) / 'UserInputs' / 'UserDataInput.txt'
 MessageFileTemplate = Path(currentdir) / 'UserInputs' / 'MessageTemplate.txt'
 MessageFile = Path(currentdir) / 'UserInputs' / 'message.txt'
-PostalCodeFile = Path(currentdir) / 'UserInputs' / 'PostalCodesDE.txt'
+PostalCodeFile = Path(currentdir) / 'PostalCodesDE.txt'
 emailtemplate = Path(currentdir) / 'UserInputs' / 'EmailTemplate.html'
 
 outdir = Path(currentdir) / "Output"

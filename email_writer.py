@@ -91,7 +91,17 @@ def write_Email(_emailtemplate, input_List, _adress, _title):
 
   # 'smtp.gmail.com' for google
   # 'smtp.live.com' for hotmail
-  with smtplib.SMTP(host="smtp.live.com", port=587) as smtp:
+  domain = re.search("@[\w.]+", _senderAddress)
+  domain.group()
+  if domain.group().split('@')[1].split('.')[0] == 'gmail':
+    _host = 'smtp.gmail.com'
+  elif domain.group().split('@')[1].split('.')[0] == 'hotmail':
+    _host = 'smtp.live.com'
+  elif domain.group().split('@')[1].split('.')[0] == 'yahoo':
+    _host = 'smtp.mail.yahoo.com'
+
+
+  with smtplib.SMTP(host=_host, port=587) as smtp:
     smtp.ehlo()
     smtp.starttls()
     smtp.login(_senderAddress, _psswrd)
