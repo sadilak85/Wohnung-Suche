@@ -85,7 +85,7 @@ def _immonet(input_List):
     element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]', 3)
     cont = Obj_immonet_ch.continue2click_element(element2click)
     if cont =='clicked':
-      # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+      element2click.click()      ###################  Submitted ##################
       time.sleep(5)
       # if any error by sending:
       element2click = Obj_immonet_ch.check2click_element('//*[@id="sbc_submit"]', 1, [None,None,'clickable'])

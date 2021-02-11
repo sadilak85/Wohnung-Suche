@@ -204,7 +204,7 @@ def _wohnungsboerse(input_List):
       if cont2 =='clicked':
         element2click2.click() # Weiter Button click
       else:
-        # element2click.click()   ###################  Burayi en son comment out yap !! ##################
+        element2click.click()     ###################  Submitted ##################
         time.sleep(5)
       # if any error by sending + After weiter button there is extra form manually to fill:
       element2click = Obj_wohnungsboerse_ch.check2click_element(_submit_btn_xpath, 1, [None,None,'clickable'])

@@ -4,7 +4,7 @@ mein Name ist $myname und ich interessiere mich sehr für die ausgeschriebene An
 
 Ich bin verantwortungsbewusst und verlässlich. In meinen bisherigen zwei Wohnungen habe ich jeweils mindestens fünf Jahre gelebt und dort kleinere Reparatur- und Instandhaltungsarbeiten selbst durchgeführt. Gerne mache ich das auch in der neuen Wohnung. 
 
-Falls Sie noch Fragen zu mir haben, erreichen Sie mich unter der Nummer $mynumber am besten zwischen 17 und 20 Uhr oder per E-Mail. Ich kann momentan spontan täglich ab 16 Uhr zu einer Besichtigung vorbeikommen. Weitere Informationen über mich können Sie meinem Linkedin-Profil entnehmen: https://www.linkedin.com/in/sadilak85/
+Falls Sie noch Fragen zu mir haben, erreichen Sie mich unter der Nummer $mynumber am besten zwischen 17 und 20 Uhr oder per E-Mail. Ich kann momentan spontan täglich ab 16 Uhr zu einer Besichtigung vorbeikommen. Weitere Informationen über mich können Sie meinem Linkedin-Profil entnehmen: sadilak85
 
 Ich wünsche Ihnen einen schönen Tag und freue mich sehr, wenn ich die Chance auf eine Besichtigung bekomme. 
 

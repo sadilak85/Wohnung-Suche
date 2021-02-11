@@ -141,7 +141,7 @@ def _null_provision(input_List):
             print("\nSubmitted manually and will save a log file as usual\n")
             pass
     else:
-      #element2click.click()  ###################  Burayi en son comment out yap !! ##################
+      element2click.click()     ###################  Submitted ##################
       time.sleep(2)
 
     print('......................\n Message is successfully sent;)! \n......................')

@@ -73,8 +73,8 @@ def getInfofromFile(_outdirsession):
   return info_dict
 
 def write_Email(_emailtemplate, input_List, _adress, _title):
-  _senderName = input_List['Firstname']+' '+input_List['Lastname']
-  _senderAddress = input_List['Email']
+  _senderName = 'Serhat Adilak'
+  _senderAddress = 's_adilak@hotmail.com'
 
   with open('emailpassword.txt', mode='r') as f:
     _psswrd = f.readline().strip()
@@ -84,8 +84,8 @@ def write_Email(_emailtemplate, input_List, _adress, _title):
   email['to'] = _adress
   email['subject'] = "Interesse an Wohnung: "+_title
 
-  _substr = {'myname' : input_List['Firstname'],
-              'mynumber': input_List['Telephone'],
+  _substr = {'myname' : 'Serhat Adilak',
+              'mynumber': 'xxxx',
               'objecttitle': _title,
               'myfullname': _senderName}
 
@@ -113,3 +113,8 @@ def write_Email(_emailtemplate, input_List, _adress, _title):
     print('email sent!')
 #
 #
+
+currentdir = os.path.dirname(os.path.realpath(__file__))
+substr_f = Path(currentdir) / 'UserInputs' / 'EmailTemplate.html'
+
+write_Email(substr_f, 'ss', 'serhatadilak@gmail.com', 'test email')

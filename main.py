@@ -276,7 +276,7 @@ def main():
   #
   #
   #SourceWebSites_List = ['immowelt', 'immobilienmarkt_sueddeutsche', 'ivd24immobilien', 'immonet', 'wohnungsboerse','immobilienscout24', 'null_provision']
-  SourceWebSites_List = ['wohnungsboerse']
+  SourceWebSites_List = ['immobilienscout24']
   #
   for i, _webstr in enumerate(SourceWebSites_List):
     input_List['Sourceweb'] = _webstr
