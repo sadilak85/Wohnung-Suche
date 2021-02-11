@@ -1,5 +1,5 @@
 drivers/*
-emailpassword.txt
+#emailpassword.txt
 *.exe
 # Byte-compiled / optimized / DLL files
 __pycache__/
