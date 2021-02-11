@@ -48,7 +48,7 @@ How to see the Chrome version:
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeVersion.png" width="60%">
 
-How to download a Google Driver for Selenium:
+How to download a **Google Driver for Selenium**:
 
 1) Go to the page:  https://chromedriver.chromium.org/downloads
 
@@ -61,14 +61,14 @@ How to download a Google Driver for Selenium:
 After having your Selenium driver, you can download now the entire repo to your local machine. 
 
 
-There are user specific files in "UserInputs" folder. One of them is "UserDataInput.txt".
+There are user specific files in **UserInputs** folder. One of them is **UserDataInput.txt**.
 
 You will fill in this file ("UserDataInput.txt") with correct inputs on appropriate areas.
 
-https://github.com/sadilak85/Wohnung-Suche/blob/main/UserDataInput.txt
+https://github.com/sadilak85/Wohnung-Suche/blob/main/UserInputs/UserDataInput.txt
 
 Another important issue:
-In "UserDataInput.txt" file, the last line is reserved for Chrome user profile path which is important to get rid of privacy settings pop ups in the absensce of any cookies, disabling selenium work properly.
+In "UserDataInput.txt" file, the last line is reserved for **Chrome user profile path** which is important to get rid of privacy settings pop ups in the absensce of any cookies, disabling selenium work properly.
 
 How to set User Profile for Chrome: 
 
@@ -78,15 +78,23 @@ How to set User Profile for Chrome:
 
 <img src="https://github.com/sadilak85/Wohnung-Suche/blob/main/pics/ChromeUserProfile.png" width="60%">
 
+----------------------
 
-Another file to modify by yourself in this "UserInputs" folder is "MessageTemplate.txt":
+Another file to modify by yourself in this "UserInputs" folder is **MessageTemplate.txt**:
 
 https://github.com/sadilak85/Wohnung-Suche/blob/main/UserInputs/MessageTemplate.txt
 
+This is your **message template** file to use as a text to fill in "Nachricht" message in online formular (form). There are parametric strings inside, like $myname , $mynumber, etc. Leave these words unchanged, your input values from "UserDataInput.txt" will replace on these parametric strings, but you can change anything in this file.
 
-Output folder --> log files, with information on the objects focused (the ones that you will find and send messages) with web scraping packages of python. 
+Similarly, **EmailTemplate.html** is for you to modify, a message text for emails in html format. You can find many email templates in html through a web search. What you must do is to change the message text part inside an appropriate html tag, again leaving parametric strings as described above.
 
-Output folder --> sub directory: ExtractedEmails  --> Possible email addresses on the object urls, program will ask you in the end to check the email addresses in the files in this sub-directory, to validate them in order to send extra emails automatically with a personalized, good looking way. You can validate those emails via the url provided in the files. If you think that some/all emails are not valid, only delete those emails from the files without deleting other things. 
+----------------------
+
+Output folder --> **log files**, with information on the objects focused (the ones that you will find and send messages) with web scraping packages of python. 
+
+Output folder --> sub directory: **ExtractedEmails**  --> Possible email addresses on the object urls, program will ask you in the end to check the email addresses in the files in this sub-directory, to validate them in order to send extra emails automatically with a personalized, good looking way. You can validate those emails via the url provided in the files. If you think that some/all emails are not valid, only delete those emails from the files without deleting other things. 
+
+
 
 
 
