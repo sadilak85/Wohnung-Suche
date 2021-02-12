@@ -2,6 +2,7 @@
 
 Welcome to Wohnung Suche tool!
 
+Let this tool search and find apartments based on your criteria, and fill out forms then send messages, and finally writes nice emails based on any kind of template you provide!
 
 This python selenium based tool provides available rental apartments on the following websites:
 
